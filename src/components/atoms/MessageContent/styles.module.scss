@@ -1,0 +1,8 @@
+@import "scss/variables";
+
+.messageContent {
+  background-color: $secondaryBack;
+  width: 100%;
+  padding: $paddingUnit * 2;
+  font-weight: 600;
+}

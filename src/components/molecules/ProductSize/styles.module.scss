@@ -1,0 +1,66 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+
+.productSize {
+  width: 100%;
+
+  .heading {
+    align-items: center;
+    justify-content: space-between;
+
+    button {
+      text-decoration: underline;
+      font-weight: bolder;
+      font-size: 1.4rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+
+  .sizes {
+    padding: 0;
+    justify-content: flex-start;
+    transform-origin: left center;
+  }
+
+  .sizesC {
+    gap: 0;
+
+    button[data-focused="true"] {
+      background-color: $secondaryBack;
+    }
+
+    .size {
+      padding: ($paddingUnit) 0;
+      font-weight: 500;
+
+      .svg {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+    }
+
+    button {
+      border-top: 1px solid $secondaryBack;
+
+      // make up for drawer padding
+      margin: 0 -15px;
+      padding: 0 15px;
+
+      &[disabled] {
+        p,
+        label {
+          color: $textPrimary;
+        }
+
+        svg {
+          fill: $textPrimary;
+        }
+
+        opacity: 40%;
+      }
+    }
+  }
+}

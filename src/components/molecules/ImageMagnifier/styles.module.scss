@@ -1,0 +1,24 @@
+@import "scss/mixins";
+
+.wrapper {
+  position: relative;
+
+  .zoomLens {
+    position: absolute;
+    pointer-events: none;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: opacity 200ms;
+    background-color: white;
+    background-repeat: no-repeat;
+    opacity: 0%;
+
+    &[data-showing="true"] {
+      opacity: 100%;
+    }
+
+    @include unselectable();
+  }
+}

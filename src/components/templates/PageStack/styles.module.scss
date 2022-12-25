@@ -1,0 +1,15 @@
+@import "scss/variables";
+
+.pageStack {
+  position: relative;
+  padding: 0;
+  gap: $marginUnit * 2;
+  padding-bottom: $marginUnit * 4;
+  box-shadow: $boxShadow;
+  background-color: $primaryBack;
+  z-index: 1;
+  width: min($maxWindowWidth, 100%);
+  margin: 0 auto;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}

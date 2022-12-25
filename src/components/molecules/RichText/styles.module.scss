@@ -1,0 +1,80 @@
+@import "scss/variables";
+@import "scss/breakpoints";
+
+.richText {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-end;
+  gap: $paddingUnit;
+  width: 100%;
+  margin: 0 auto;
+
+  &[data-justify="bottom"] {
+    justify-content: flex-end;
+  }
+
+  &[data-justify="top"] {
+    justify-content: flex-start;
+  }
+
+  &[data-justify="middle"] {
+    justify-content: center;
+  }
+
+  h2 {
+    font-size: 4rem;
+    line-height: 4.8rem;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+  }
+
+  p {
+    opacity: 75%;
+    font-size: 1.5rem;
+  }
+
+  &[data-variation="white"] {
+    p,
+    h2 {
+      color: white;
+    }
+  }
+
+  &[data-variation="black"] {
+    p,
+    h2 {
+      color: black;
+    }
+  }
+
+  &[data-alignment="center"] {
+    align-items: center;
+
+    p,
+    h2 {
+      text-align: center;
+    }
+  }
+
+  &[data-alignment="left"] {
+    align-items: flex-start;
+
+    p,
+    h2 {
+      text-align: left;
+    }
+  }
+
+  @include breakpoint(mobile, portrait) {
+    h2 {
+      font-size: 4rem;
+      line-height: 3.8rem;
+    }
+  }
+  @include breakpoint(mobile, landscape) {
+    h2 {
+      font-size: 4rem;
+      line-height: 3.8rem;
+    }
+  }
+}

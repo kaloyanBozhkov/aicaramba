@@ -1,0 +1,63 @@
+@import "breakpoints";
+@import "variables";
+@import "keyframes";
+
+@mixin animate($keyframesName, $duration: 300ms, $delay: 0ms, $fillmode: forwards, $animFn: $cubicBezier_0) {
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $keyframesName;
+  animation-fill-mode: $fillmode;
+  animation-timing-function: $animFn;
+}
+
+@mixin unselectable() {
+  /* Chrome all / Safari all */
+
+  /* Firefox all */
+
+  /* IE 10+ */
+
+  /* Likely future */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+@mixin thinScrollBar($isVertical: true, $isVisibleOnHover: false) {
+  // for desktop show the scrollbar but make it thin!
+  &::-webkit-scrollbar {
+    // for mobile do not show the scroll bar, user can scroll without it
+    @include breakpoint(tabletBig) {
+      display: none;
+    }
+
+    @if ($isVertical) {
+      width: 4px;
+      height: 0;
+    } @else {
+      width: 0;
+      height: 4px;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #a3a3a3;
+  }
+
+  @if ($isVisibleOnHover) {
+    &:not(:hover) {
+      &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+@mixin animateChildren($keyframes, $animationSpeed: 600ms, $delayMultiplier: 100ms) {
+  @for $i from 0 through 20 {
+    > *:nth-child(#{$i}) {
+      opacity: 0%;
+      @include animate($keyframes, $animationSpeed, $i * $delayMultiplier, forwards);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@import "scss/mixins";
+
+.canvasImageDisplay {
+  position: relative;
+  margin: 0 10%;
+
+  &[data-fluid="true"] {
+    width: 100%;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    @include unselectable();
+  }
+
+  > div {
+    position: absolute;
+    top: 0;
+    transform: translateY(45%) translateX(-11%);
+    width: 125%;
+  }
+}

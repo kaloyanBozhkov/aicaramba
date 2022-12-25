@@ -1,0 +1,44 @@
+@import "scss/mixins";
+@import "scss/breakpoints";
+@import "scss/variables";
+
+.issueWrapper {
+  gap: 0;
+
+  h1,
+  svg {
+    color: $textPrimary;
+  }
+
+  h1 {
+    text-align: center;
+
+    b {
+      color: $primaryFront;
+    }
+  }
+
+  svg {
+    width: 20rem;
+    height: 20rem;
+
+    @include breakpoint(mobile, landscape) {
+      width: 10rem;
+      height: 10rem;
+    }
+
+    @include breakpoint(tabletBig) {
+      width: 25rem;
+      height: 25rem;
+    }
+  }
+
+  > a {
+    margin-top: $tapUnit;
+  }
+
+  > div {
+    flex: 1;
+    overflow: auto;
+  }
+}

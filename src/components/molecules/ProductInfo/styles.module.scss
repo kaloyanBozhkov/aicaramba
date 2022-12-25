@@ -1,0 +1,84 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+
+.productInfo {
+  .title {
+    h2 {
+      &::before,
+      &::after {
+        content: '"';
+      }
+
+      letter-spacing: 0.5px;
+      text-transform: capitalize;
+
+      &[data-uppercase="true"] {
+        text-transform: uppercase;
+      }
+
+      &[data-variant="primary"] {
+        font-size: 2rem;
+      }
+
+      &[data-variant="secondary"] {
+        font-weight: 400;
+        font-size: 1.6rem;
+        line-height: 1.8rem;
+      }
+    }
+  }
+
+  p {
+    font-size: 1.6rem;
+    font-weight: 700;
+    white-space: nowrap;
+    text-align: start;
+
+    @include mediaQueryDevice(desktop) {
+      text-align: end;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    p {
+      font-weight: 400;
+      font-size: 1.4rem;
+      line-height: 1.5rem;
+      text-align: left;
+      text-transform: capitalize;
+
+      span {
+        font-weight: 300;
+      }
+    }
+  }
+
+  .price {
+    gap: $tapUnit;
+    line-height: 1.6rem;
+    font-weight: 600;
+    height: 100%;
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .status {
+    p {
+      font-size: 1.2rem;
+      line-height: 1rem;
+      margin-top: 3px;
+    }
+  }
+
+  @include mediaQuery(mobile) {
+    .price {
+      flex-direction: column;
+      gap: $paddingUnit;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+
+.shareBtn {
+  width: max-content;
+
+  p {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
+
+.wrapper {
+  padding: $paddingUnit $marginUnit;
+
+  .bubble {
+    margin-top: $baseUnit;
+    justify-content: center;
+    align-items: center;
+    gap: $baseUnit;
+    cursor: pointer;
+
+    p {
+      font-weight: 600;
+    }
+
+    .ball {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+      background-color: $tertiaryBack;
+
+      svg {
+        transition: all 300ms;
+        transform-origin: center;
+        color: $primaryBack;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    &:hover {
+      .ball {
+        svg {
+          transform: scale(0.8);
+        }
+      }
+    }
+  }
+}
+
+.popover {
+  padding: 0;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+@mixin mobileStyles {
+  .wrapper {
+    width: 95vw;
+    margin-left: 2.5vw;
+  }
+}
+
+@include mediaQuery(tabletSmall) {
+  @include mobileStyles;
+}
+
+@include mediaQuery(mobile) {
+  @include mobileStyles;
+}

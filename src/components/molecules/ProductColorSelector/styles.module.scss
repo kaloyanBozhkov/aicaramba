@@ -1,0 +1,34 @@
+@import "scss/variables";
+
+.productColorSelector {
+  color: $textPrimary;
+  gap: $baseUnit;
+
+  span {
+    opacity: 70%;
+    text-transform: capitalize;
+  }
+
+  .shirtWrapper {
+    > img {
+      width: 7rem;
+      height: auto;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 300ms;
+
+      &[data-active="true"] {
+        border: 1px solid black;
+      }
+
+      &:not([data-active="true"]) {
+        opacity: 50%;
+
+        &:hover {
+          border: 1px solid black;
+          opacity: 70%;
+        }
+      }
+    }
+  }
+}

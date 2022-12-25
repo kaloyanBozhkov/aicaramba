@@ -1,0 +1,18 @@
+@import "scss/variables";
+
+.signature {
+  opacity: 80%;
+  font-size: 1.2rem;
+
+  &[data-variant="secondary"] {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2rem;
+    font-size: 1.2rem;
+    text-align: center;
+    color: $textPrimary;
+    opacity: 30%;
+  }
+}

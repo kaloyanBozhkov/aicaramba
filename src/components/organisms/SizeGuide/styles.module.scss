@@ -1,0 +1,64 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+@import "scss/mixins";
+
+.sizeGuide {
+  margin-top: -$marginUnit;
+  min-width: 40rem;
+  min-height: 25vh;
+  justify-content: space-between;
+  align-self: center;
+
+  .unitWrapper {
+    gap: $marginUnit;
+
+    .switch {
+      font-weight: bold;
+    }
+  }
+
+  .tableWrapper {
+    overflow: auto;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  @include mediaQuery(mobile) {
+    min-width: unset;
+    max-height: 80vh;
+    overflow: auto;
+    width: 70vw;
+    @include thinScrollBar();
+
+    .tableWrapper {
+      table {
+        thead {
+          display: none;
+        }
+
+        tbody {
+          td {
+            display: flex;
+            flex-direction: column;
+            border: none;
+            padding: 0;
+            padding: $baseUnit;
+
+            &::before {
+              content: attr(data-title);
+              font-weight: 300;
+            }
+          }
+
+          tr {
+            &:nth-child(odd) {
+              background-color: $secondaryFront;
+            }
+
+            border-bottom: $marginUnit solid transparent;
+          }
+        }
+      }
+    }
+  }
+}

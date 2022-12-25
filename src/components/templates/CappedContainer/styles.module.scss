@@ -1,0 +1,30 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+
+.cappedContainerTemplate {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+
+  &[data-with-wrapper="true"] {
+    padding-left: $paddingUnit;
+    padding-right: $paddingUnit;
+  }
+
+  &[data-with-wrapper="false"] {
+    padding-left: $paddingUnit * 2;
+    padding-right: $paddingUnit * 2;
+  }
+
+  &[data-without-padding="true"] {
+    padding: 0;
+  }
+
+  @include breakpoint(tabletSmall, landscape) {
+    max-width: $maxWindowWidth;
+  }
+
+  @include breakpoint(tabletSmall, portrait) {
+    max-width: $maxWindowWidth;
+  }
+}

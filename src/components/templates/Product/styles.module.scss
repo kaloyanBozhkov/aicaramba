@@ -1,0 +1,31 @@
+@import "scss/variables";
+@import "scss/breakpoints";
+
+.productTemplate {
+  margin: $marginUnit 0;
+  width: 100%;
+  gap: $marginUnit;
+  align-items: stretch;
+  flex-wrap: nowrap;
+
+  > div {
+    gap: $marginUnit;
+    overflow: hidden;
+
+    &:first-child {
+      flex: 0.6 0.6 0;
+    }
+
+    &:last-child {
+      flex: 0.4 0.4 0;
+    }
+  }
+
+  @include mediaQuery(mobile) {
+    flex-flow: column wrap;
+  }
+
+  @include mediaQuery(tabletSmall) {
+    flex-flow: column wrap;
+  }
+}

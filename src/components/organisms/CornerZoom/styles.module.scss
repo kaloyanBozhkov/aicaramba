@@ -1,0 +1,53 @@
+@import "scss/variables";
+
+.buttonWrapper {
+  &[data-is-absolute="true"] {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    &[data-desktop="false"] {
+      right: $baseUnit;
+      top: $baseUnit;
+      left: unset;
+    }
+  }
+
+  button {
+    img {
+      width: 2rem;
+    }
+  }
+
+  .cornerZoom {
+    background-color: rgb(255 255 255 / 60%);
+    backdrop-filter: blur(3px);
+    padding: $baseUnit;
+    border-bottom-left-radius: 4px;
+    transform: scale(0.8) translate(73.5%, -13.5%);
+    transition: all 200ms;
+    display: flex;
+
+    &:hover {
+      transform: scale(1) translate(0, 0);
+    }
+  }
+}
+
+.modal {
+  .zoomInContainer {
+    max-width: 80rem;
+  }
+
+  .hint {
+    opacity: 80%;
+    position: absolute;
+    bottom: -3rem;
+    color: white;
+    font-size: 1.4rem;
+    left: 0;
+    text-align: center;
+    right: 0;
+  }
+}

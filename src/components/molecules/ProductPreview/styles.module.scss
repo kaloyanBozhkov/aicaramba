@@ -1,0 +1,12 @@
+.productPreview {
+  width: 100%;
+
+  .imgContainer {
+    position: relative;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+}

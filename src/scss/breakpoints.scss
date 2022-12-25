@@ -1,0 +1,147 @@
+@mixin breakpoint($breakpoint, $orientation: portrait) {
+  @if $breakpoint == mobile {
+    @if $orientation == portrait {
+      @media (max-width: 599px) and (orientation: $orientation) {
+        @content;
+      }
+    } @else {
+      @media (max-height: 599px) and (orientation: $orientation) {
+        @content;
+      }
+    }
+  }
+
+  @if $breakpoint == tabletSmall {
+    @if $orientation == portrait {
+      @media all and (min-width: 600px) and (orientation: $orientation) {
+        @content;
+      }
+    } @else {
+      @media (min-height: 600px) and (orientation: $orientation) {
+        @content;
+      }
+    }
+  }
+
+  @if $breakpoint == tabletBig {
+    @if $orientation == portrait {
+      @media (min-width: 900px) and (orientation: $orientation) {
+        @content;
+      }
+    } @else {
+      @media (min-height: 900px) and (orientation: $orientation) {
+        @content;
+      }
+    }
+  }
+
+  @if $breakpoint == desktop {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == bigDesktop {
+    @media (min-width: 1800px) {
+      @content;
+    }
+  }
+}
+
+// same as breakpoint but only within size ranges of given devices
+@mixin mediaQuery($device) {
+  // Desktop design down
+  @if $device == mobile {
+    @media (max-width: 600px) {
+      @content;
+    }
+  }
+
+  @if $device == tabletSmall {
+    @media (min-width: 601px) and (max-width: 900px) {
+      @content;
+    }
+  }
+
+  @if $device == tabletBig {
+    @media (min-width: 901px) and (max-width: 1200px) {
+      @content;
+    }
+  }
+
+  @if $device == desktop {
+    @media (min-width: 1201px) and (max-width: 1800px) {
+      @content;
+    }
+  }
+
+  @if $device == big-desktop {
+    @media (min-width: 1801px) {
+      @content;
+    }
+  }
+}
+
+@mixin mediaQueryDevice($device) {
+  @if $device == mobile {
+    @include breakpoint(mobile, portrait) {
+      @content;
+    }
+    @include breakpoint(mobile, landscape) {
+      @content;
+    }
+  } @else if $device == desktop {
+    @include breakpoint(desktop) {
+      @content;
+    }
+    @include breakpoint(bigDesktop) {
+      @content;
+    }
+  } @else if $device == tabletBig {
+    @include breakpoint(tabletBig, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletBig, landscape) {
+      @content;
+    }
+  } @else if $device == tabletSmall {
+    @include breakpoint(tabletSmall, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletSmall, landscape) {
+      @content;
+    }
+  } @else if $device == tablet {
+    @include breakpoint(tabletSmall, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletSmall, landscape) {
+      @content;
+    }
+    @include breakpoint(tabletBig, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletBig, landscape) {
+      @content;
+    }
+  } @else if $device == notDesktop {
+    @include breakpoint(mobile, portrait) {
+      @content;
+    }
+    @include breakpoint(mobile, landscape) {
+      @content;
+    }
+    @include breakpoint(tabletSmall, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletSmall, landscape) {
+      @content;
+    }
+    @include breakpoint(tabletBig, portrait) {
+      @content;
+    }
+    @include breakpoint(tabletBig, landscape) {
+      @content;
+    }
+  }
+}

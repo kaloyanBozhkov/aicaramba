@@ -1,0 +1,41 @@
+@import "scss/variables";
+
+.chips {
+  gap: $baseUnit;
+  padding: $paddingUnit;
+  justify-content: flex-start;
+
+  .chip {
+    color: $textPrimary;
+    text-transform: uppercase;
+    position: relative;
+
+    label {
+      line-height: 2.8rem;
+    }
+
+    [data-rounded="false"] {
+      ~ label {
+        border-radius: 0;
+        width: 7rem;
+        height: 3.5rem;
+        line-height: 3.5rem;
+        font-size: 1.7rem;
+        text-align: center;
+      }
+    }
+
+    input:not([data-variant="fill"]) {
+      border: 1px solid $textPrimary;
+
+      ~ label {
+        box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
+        background-color: white;
+
+        &:hover {
+          background-color: #f1f3f5;
+        }
+      }
+    }
+  }
+}

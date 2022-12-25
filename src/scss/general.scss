@@ -1,0 +1,117 @@
+@import "fonts";
+@import "scss/mantine";
+@import "breakpoints";
+@import "variables";
+
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in iOS.
+ */
+
+html {
+  //Defines what 1rem is: 1rem = 10px
+  font-size: 62.5%; // 10px / 16px = 62.5% *
+  line-height: 1.15; /* 1 */
+  text-size-adjust: 100%; /* 2 */
+
+  // @include mediaQuery(tabletSmall) {
+  //     font-size: 37.5%; //1 rem = 12px;
+  // }
+
+  // mobile does not seem to have fonts changed by much
+  // @include breakpoint(tabletSmall) {
+  //     font-size: 50%; //1rem = 8px; 8/16 = 50%
+  // }
+
+  // @include breakpoint(mobile) {
+  //     font-size: 37.5%; //1rem = 6px; 6/16 = 37.5%
+  // }
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: AvenirNext, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+html,
+body,
+#root,
+body > div[id]:first-child {
+  height: 100%;
+  width: 100%;
+  background: $primaryBack;
+  color: $textPrimary;
+  background-color: #f8f9fa;
+}
+
+a,
+p {
+  color: $textPrimary;
+}
+
+button {
+  background: none;
+  background-color: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style-type: none;
+
+  li {
+    margin-bottom: $baseUnit;
+  }
+
+  &[data-svg="true"] {
+    svg {
+      margin-right: $paddingUnit;
+    }
+  }
+
+  &:not([data-svg="true"]) {
+    li {
+      &::before {
+        content: "-";
+        margin-right: $paddingUnit;
+      }
+    }
+  }
+}
+
+[data-fixed-mobile="bottom"] {
+  @include mediaQuery(mobile) {
+    position: fixed;
+    bottom: $paddingUnit;
+    left: $paddingUnit;
+    right: $paddingUnit;
+    z-index: $zIndexTop;
+  }
+}
+
+[data-fixed-tabletsmall="bottom"] {
+  @include mediaQuery(tabletSmall) {
+    position: fixed;
+    bottom: $paddingUnit;
+    left: $paddingUnit;
+    right: $paddingUnit;
+    z-index: $zIndexTop;
+  }
+}

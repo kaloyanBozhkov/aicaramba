@@ -1,0 +1,22 @@
+@import "scss/breakpoints";
+
+.aboutUs {
+  .stack {
+    align-self: center;
+    gap: 0;
+
+    > h2 {
+      font-size: 1.5rem;
+      align-self: flex-end;
+      font-style: italic;
+      opacity: 50%;
+      margin-top: -2rem;
+      @include breakpoint(mobile, portrait) {
+        margin-top: -2rem;
+      }
+      @include breakpoint(mobile, landscape) {
+        margin-top: -2rem;
+      }
+    }
+  }
+}

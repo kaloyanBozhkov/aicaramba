@@ -1,0 +1,16 @@
+.wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  z-index: 10;
+
+  &[data-position="top"] {
+    top: -1px;
+  }
+
+  &[data-position="bottom"] {
+    bottom: -1px;
+  }
+}
