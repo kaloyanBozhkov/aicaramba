@@ -51,12 +51,17 @@ const ProductCard = ({
   ...props
 }: IProductCard & Partial<StackProps>) => {
   const isDesktop = useDesktopCheck(),
-    [openedDrawer, setOpenedDrawer] = useState(false)
+    [openedDrawer, setOpenedDrawer] = useState(false),
+    artwork = <Image src={imgSrc} width={1000} height={1000} alt="artwork preview" />
 
   return (
     <Stack className={styles.productCard} {...props}>
       <FluidContainer className={styles.preview}>
-        {isDesktop && <CornerZoom isAbsolute src={imgSrc} zoomTitle={name} />}
+        {isDesktop && (
+          <CornerZoom isAbsolute zoomTitle={name}>
+            {artwork}
+          </CornerZoom>
+        )}
         <NavLink href={url} data-naked="true">
           <Image
             src={imgSrc}
@@ -81,7 +86,7 @@ const ProductCard = ({
           </Stack>
         ) : (
           <Stack className={styles.mobileActions}>
-            <CornerZoom src={imgSrc} zoomTitle={name} />
+            <CornerZoom zoomTitle={name}>{artwork}</CornerZoom>
             <ActionButton
               label={
                 <Image

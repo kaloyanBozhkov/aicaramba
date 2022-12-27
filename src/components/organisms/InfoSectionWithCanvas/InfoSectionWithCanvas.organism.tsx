@@ -27,7 +27,7 @@ const InfoSectionWithCanvas = ({
   title: string
   text: string | ReactNode
   icon?: ProductStatus
-  zoomTitle?: string
+  zoomTitle: string
 }) => {
   const [expanded, setExpanded] = useState(false),
     doc = useClientVariable(() => document),

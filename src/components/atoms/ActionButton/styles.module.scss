@@ -61,11 +61,11 @@ button.actionButton {
     padding: 0;
     background-color: $primaryBack;
     color: $primaryFront;
-    box-shadow: 0 9px 11px 2px rgb(0 0 0 / 23%);
+    box-shadow: 0 7px 8px 2px rgb(0 0 0 / 23%);
     transition: all 400ms;
 
     &:hover {
-      box-shadow: 0 0 11px 2px rgb(0 0 0 / 0%);
+      box-shadow: 0 0 8px 2px rgb(0 0 0 / 0%);
     }
 
     > span > div {

@@ -24,7 +24,7 @@
     "^routing/(.*)",
     "^types/(.*)$",
     "^context/(.*)$",
-    "^reactives/(.*)$",
+    "^store/(.*)$",
     "^classes/(.*)$",
     "^hooks/(.*)$",
     "^components/atoms/(.*)$",

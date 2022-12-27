@@ -1,13 +1,13 @@
-import { useMemo } from 'react'
+import { type ReactElement, useMemo } from 'react'
 
 import Image from 'next/image'
+import { useModal } from 'stores/Modal.store'
 
 import useDesktopCheck from 'hooks/styles/useDesktopCheck'
-import useModal from 'hooks/useModal'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 
-import ImageMagnifier from 'components/molecules/ImageMagnifier/ImageMagnifier'
+import Magnifier from 'components/molecules/Magnifier/Magnifier'
 
 import { Group } from '@mantine/core'
 
@@ -16,36 +16,41 @@ import { extendClassNameProp } from 'utils/utils.common'
 import styles from './styles.module.scss'
 
 const CornerZoom = ({
-  src,
   className,
   zoomTitle,
   isAbsolute = false,
+  children,
 }: {
-  src: string
   className?: string
   zoomTitle: string
   isAbsolute?: boolean
+  children: ReactElement
 }) => {
   const isDesktop = useDesktopCheck(),
     modal = useMemo(
       () => (
         <div className={styles.zoomInContainer}>
-          <ImageMagnifier src={src} width={1000} height={1000} zoomLevel={2} />
+          <Magnifier zoomLevel={2}>{children}</Magnifier>
           <p className={styles.hint}>Hint: Interact with the image to inspet details..</p>
         </div>
       ),
-      [src]
+      [children]
     ),
-    { openModal } = useModal({
-      title: zoomTitle,
-      className: styles.modal,
-      children: modal,
-    })
+    openModal = useModal(({ controls: { openModal } }) => openModal)
 
   return (
     <div className={styles.buttonWrapper} data-desktop={isDesktop} data-is-absolute={isAbsolute}>
       {isDesktop ? (
-        <button className={extendClassNameProp(styles.cornerZoom, className)} onClick={openModal}>
+        <button
+          className={extendClassNameProp(styles.cornerZoom, className)}
+          onClick={() =>
+            openModal({
+              title: zoomTitle,
+              className: styles.modal,
+              children: modal,
+            })
+          }
+        >
           <Group spacing="xs">
             <Image
               src="/assets/icons/zoom-in.svg"
@@ -58,7 +63,13 @@ const CornerZoom = ({
         </button>
       ) : (
         <ActionButton
-          onClick={openModal}
+          onClick={() =>
+            openModal({
+              title: zoomTitle,
+              className: styles.modal,
+              children: modal,
+            })
+          }
           modifier="circularIconBtn"
           label={
             <Image

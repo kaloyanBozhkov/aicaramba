@@ -44,7 +44,7 @@ const ProductInfo = ({
         <Status className={styles.status} {...Statuses[status]} />
       </Grid.Col>
       <Grid.Col span={isSecondary ? 2 : 1} orderLg={3} className={styles.title}>
-        <Group position="apart" noWrap>
+        <Group position="apart" noWrap align="flex-start">
           <h2 data-uppercase={uppercase} data-variant={textVariant}>
             {name}
           </h2>

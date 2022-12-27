@@ -5,12 +5,12 @@ import styles from './styles.module.scss'
 
 const Announcement = () => {
   // @TODO get from somewhere else?
-  const bannerMsgFromReactiveVar = 'AI Caramba'
+  const bannerMsgFromStore = 'AI Caramba'
 
   return (
     <FluidContainer className={styles.announcement}>
       <CappedContainerTemplate className={styles.wrapper}>
-        <p>{bannerMsgFromReactiveVar}</p>
+        <p>{bannerMsgFromStore}</p>
       </CappedContainerTemplate>
     </FluidContainer>
   )

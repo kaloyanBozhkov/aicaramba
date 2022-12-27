@@ -1,0 +1,86 @@
+$border-blur: 10px;
+$border-opacity: 0.25;
+
+/**
+ * OG Sizes based on 1000px
+ * border-width: 17px
+ * border-radius: 11.54%
+ * border-blur: 10px
+ * border-opacity: 0.25
+ */
+
+// adjust below for size of shirt img will be placed on
+$border-radius: 11.54%;
+$border-width: 1.7%;
+
+// custom number for ratio of 1000px to fit 350 x 500 shirt image size
+$reduceBy: 8;
+$imgSize: 1000px / $reduceBy;
+
+.shirtPreview {
+  position: relative;
+  max-width: 100%;
+
+  .shirt {
+    width: 100%;
+    height: auto;
+  }
+
+  .preview {
+    position: absolute;
+    border-radius: $border-radius;
+    overflow: hidden;
+    width: 33.1%;
+    height: auto;
+
+    &[data-shirt="black"] {
+      top: 40%;
+      left: 31%;
+      transform: skew(1deg, 2deg);
+    }
+
+    &[data-shirt="white"] {
+      top: 42%;
+      left: 37.8%;
+      transform: skew(2deg, 1deg);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      box-shadow: inset 0 0 0 $border-width rgb(255, 255, 255, $border-opacity);
+      width: 100%;
+      height: 100%;
+      border-radius: $border-radius;
+      left: 0;
+      top: 0;
+      z-index: 1;
+
+      /* -webkit-backdrop-filter: blur(var(--border-blur));
+      backdrop-filter: blur(var(--border-blur)); */
+    }
+
+    .blurImg,
+    .imgOnShirt {
+      // 37.1% of 350 is 125, same ratio as 8/10 of 1000px
+      width: 100%;
+      height: auto;
+    }
+
+    .blurImg {
+      filter: blur($border-blur);
+    }
+
+    .imgOnShirt {
+      position: absolute;
+      top: $border-width;
+      left: $border-width;
+      z-index: 2;
+      border-radius: $border-radius;
+      width: calc(100% - calc($border-width * 2));
+      height: calc(100% - calc($border-width * 2));
+      background-size: calc(100% + calc($border-width * 2));
+      background-position: -$border-width;
+    }
+  }
+}

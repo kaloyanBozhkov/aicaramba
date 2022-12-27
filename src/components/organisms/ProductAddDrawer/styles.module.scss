@@ -35,6 +35,11 @@
 
       > div {
         padding: 0;
+
+        &:first-child {
+          // fix gap between first item (NEW - Status) and second item (title)
+          margin-bottom: -2rem;
+        }
       }
     }
   }

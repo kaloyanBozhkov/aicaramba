@@ -1,10 +1,7 @@
 import { ReactNode, useMemo } from 'react'
 
-import { useReactiveVar } from '@apollo/client'
-
 import NavLink from 'next/link'
-
-import { cartVar } from 'reactives/Cart.reactive'
+import { useCart } from 'stores/Cart.store'
 
 import Product, { IProductProps } from 'classes/Product'
 
@@ -28,7 +25,7 @@ const ProductCollection = ({
   goTo?: string
 }) => {
   const p = useMemo(() => products.map((p) => new Product(p)), [products]),
-    cart = useReactiveVar(cartVar)
+    cart = useCart()
 
   return (
     <FluidContainer className={styles.productCollection}>

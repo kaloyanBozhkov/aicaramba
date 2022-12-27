@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import Image from 'next/image'
-
-import useModal from 'hooks/useModal'
+import { useModal } from 'stores/Modal.store'
 
 import Chips from 'components/molecules/Chips/Chips.molecule'
 
@@ -30,10 +29,7 @@ const ProductSize = ({
   const [selectedSize, setSelectedSize] = useState<Size | undefined>(selected),
     [justAdded, setJustAdded] = useToggle(),
     sizeGuide = useMemo(() => <SizeGuide />, []),
-    { openModal } = useModal({
-      title: 'Size Guide',
-      children: sizeGuide,
-    })
+    openModal = useModal(({ controls: { openModal } }) => openModal)
 
   useEffect(() => {
     if (!pending) {
@@ -46,7 +42,16 @@ const ProductSize = ({
     <Stack className={styles.productSize}>
       <Group noWrap align="flex-start" className={styles.heading}>
         <h2>SELECT SIZE</h2>
-        <button onClick={openModal}>Size Guide</button>
+        <button
+          onClick={() =>
+            openModal({
+              title: 'Size Guide',
+              children: sizeGuide,
+            })
+          }
+        >
+          Size Guide
+        </button>
       </Group>
       {variant === 'row' && (
         <Chips<Size>

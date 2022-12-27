@@ -2,16 +2,30 @@
 
 .wrapper {
   position: relative;
+  overflow: hidden;
+
+  .contentWrapper {
+    position: relative;
+
+    > * {
+      max-width: 100%;
+      height: auto;
+    }
+  }
 
   .zoomLens {
     position: absolute;
+    transform-origin: 0 0;
     pointer-events: none;
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     transition: opacity 200ms;
     background-color: white;
+    background-size: contain;
     background-repeat: no-repeat;
     opacity: 0%;
 
@@ -20,5 +34,10 @@
     }
 
     @include unselectable();
+
+    > * {
+      max-width: 100%;
+      height: auto;
+    }
   }
 }

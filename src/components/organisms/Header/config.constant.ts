@@ -1,4 +1,4 @@
-import { SIZES } from 'reactives/Styles.reactive'
+import { SIZES } from 'stores/Styles.store'
 
 const { 'header-desktop-h': hdh, 'header-mobile-h': hmh } = SIZES
 

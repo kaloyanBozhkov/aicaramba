@@ -1,3 +1,5 @@
+import { KeyboardEventHandler } from 'react'
+
 import Image from 'next/image'
 
 import { Burger, Group, TextInput } from '@mantine/core'
@@ -7,9 +9,10 @@ import styles from './styles.module.scss'
 interface ISearch {
   onSearch: (keywords: string) => void
   onClear: () => void
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
-const SearchBar = ({ onSearch, onClear }: ISearch) => (
+const SearchBar = ({ onSearch, onClear, onKeyDown }: ISearch) => (
   <Group className={styles.searchBar} position="apart">
     <TextInput
       className={styles.searchInput}
@@ -20,6 +23,7 @@ const SearchBar = ({ onSearch, onClear }: ISearch) => (
       rightSectionWidth={50}
       size="xl"
       variant="filled"
+      onKeyDown={onKeyDown}
     />
   </Group>
 )

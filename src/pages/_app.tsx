@@ -1,14 +1,11 @@
 import { useState } from 'react'
 
-import { useReactiveVar } from '@apollo/client'
-
 import { trpcReact } from 'server/utils/trcpReact'
 import { trpcNext } from 'server/utils/trpcNext'
 
 import type { AppProps } from 'next/app'
 import { GlobalStyles } from 'scss/variables'
-
-import { modalVar } from 'reactives/Modal.reactive'
+import { useModal } from 'stores/Modal.store'
 
 import useMobileCheck from 'hooks/styles/useMobileCheck'
 import useTabletCheck from 'hooks/styles/useTabletCheck'
@@ -33,7 +30,7 @@ import 'scss/general.scss'
 const App = ({ Component, pageProps }: AppProps) => {
   const isMobile = useMobileCheck(),
     isSmallTablet = useTabletCheck(),
-    modal = useReactiveVar(modalVar),
+    modalProps = useModal((store) => store.modalProps),
     [queryClient] = useState(() => new QueryClient()),
     [trpcClient] = useState(() =>
       trpcReact.createClient({
@@ -59,7 +56,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             <GlobalStyles />
             <MainTemplate
               header={isMobile || isSmallTablet ? <HeaderMobile /> : <Header />}
-              modal={<Modal {...modal} />}
+              modal={<Modal {...modalProps} />}
               banner={<Announcement />}
               footer={<Footer />}
             >

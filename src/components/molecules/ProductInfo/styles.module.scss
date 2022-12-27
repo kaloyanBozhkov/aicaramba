@@ -3,14 +3,14 @@
 
 .productInfo {
   .title {
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+
     h2 {
       &::before,
       &::after {
         content: '"';
       }
-
-      letter-spacing: 0.5px;
-      text-transform: capitalize;
 
       &[data-uppercase="true"] {
         text-transform: uppercase;

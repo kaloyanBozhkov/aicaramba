@@ -1,9 +1,6 @@
-import { useReactiveVar } from '@apollo/client'
-
 import Image from 'next/image'
 import NavLink from 'next/link'
-
-import { cartVar } from 'reactives/Cart.reactive'
+import { useCart } from 'stores/Cart.store'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 
@@ -36,7 +33,7 @@ const ProductAddDrawer = ({
   name,
   onClose,
 }: IProductAddDrawer) => {
-  const cart = useReactiveVar(cartVar),
+  const cart = useCart(),
     inCart = cart.products[id],
     isPending = cart.pending.includes(id)
 
@@ -78,6 +75,7 @@ const ProductAddDrawer = ({
             <b>SIZE:</b> {inCart.size}
           </p>
           <ProductColorSelector
+            imgSrc={imgSrc}
             activeColor={inCart.color}
             onColorSelected={(color) => cart.update(id, { color })}
           />

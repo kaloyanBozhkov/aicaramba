@@ -1,13 +1,10 @@
 import { useMemo, useRef, useState } from 'react'
 
-import { useReactiveVar } from '@apollo/client'
-
 import { trcpCaller } from 'server/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
-
-import { cartVar } from 'reactives/Cart.reactive'
+import { useCart } from 'stores/Cart.store'
 
 import { IProductProps } from 'classes/Product'
 import Product from 'classes/Product'
@@ -37,7 +34,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Accordion, Divider, Group, Space, Stack } from '@mantine/core'
-import { Color, Currency, ProductStatus, Size } from '@prisma/client'
+import { Color, Size } from '@prisma/client'
 
 const compareConfig = (o: Record<string, string>, o2: Record<string, string>) => {
   const changed = Object.keys(o).filter((key) => o[key] !== o2[key])
@@ -49,7 +46,7 @@ export default function Artwork({
   isAvailable,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const product = new Product(p),
-    cart = useReactiveVar(cartVar),
+    cart = useCart(),
     isPending = cart.pending.includes(product.id),
     inCart = cart.products[product.id],
     [color, setColor] = useState<Color>(Color.BLACK),
@@ -82,7 +79,7 @@ export default function Artwork({
   return (
     <>
       <Head>
-        <title>AI Caramba | #{p.id}</title>
+        <title>{`AI Caramba | #${p.id}`}</title>
         <meta name="description" content={`AI Generated T-Shirt ${p.id}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -106,6 +103,7 @@ export default function Artwork({
                 {isAvailable ? (
                   <>
                     <ProductColorSelector
+                      imgSrc={product.imgSrc}
                       onColorSelected={setColor}
                       activeColor={inCart?.color || color}
                     />
