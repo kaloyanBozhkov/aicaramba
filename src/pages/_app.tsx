@@ -1,19 +1,23 @@
 import { useState } from 'react'
 
-import { trpcReact } from 'server/utils/trcpReact'
-import { trpcNext } from 'server/utils/trpcNext'
+import { trpcReact } from 'server/trpc/utils/trcpReact'
+import { trpcNext } from 'server/trpc/utils/trpcNext'
 
 import type { AppProps } from 'next/app'
 import { GlobalStyles } from 'scss/variables'
+
+import { useCart } from 'stores/Cart.store'
 import { useModal } from 'stores/Modal.store'
 
 import useMobileCheck from 'hooks/styles/useMobileCheck'
 import useTabletCheck from 'hooks/styles/useTabletCheck'
 
 import Announcement from 'components/organisms/Announcement/Announcement.organism'
+import Cart from 'components/organisms/Cart/Cart.organism'
 import Footer from 'components/organisms/Footer/Footer.organism'
 import HeaderMobile from 'components/organisms/Header/Header.mobile.organism'
 import Header from 'components/organisms/Header/Header.organism'
+import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 
 import MainTemplate from 'components/templates/Main/Main.template'
 
@@ -56,9 +60,10 @@ const App = ({ Component, pageProps }: AppProps) => {
             <GlobalStyles />
             <MainTemplate
               header={isMobile || isSmallTablet ? <HeaderMobile /> : <Header />}
-              modal={<Modal {...modalProps} />}
+              modal={<Modal {...modalProps} lockScroll />}
               banner={<Announcement />}
               footer={<Footer />}
+              cart={<Cart />}
             >
               <Component {...pageProps} />
             </MainTemplate>
@@ -68,5 +73,20 @@ const App = ({ Component, pageProps }: AppProps) => {
     </MantineProvider>
   )
 }
+
+// interface IAppProps {
+//   isDesktop: boolean
+// }
+
+// export const getServerSideProps: GetServerSideProps<IAppProps> = async ({ req }) => {
+//   const userAgent = req.headers['user-agent'],
+//     isDesktop = !!userAgent && !isMobile(userAgent)
+
+//   return {
+//     props: {
+//       isDesktop,
+//     },
+//   }
+// }
 
 export default trpcNext.withTRPC(App)

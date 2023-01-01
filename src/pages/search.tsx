@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { trpcReact } from 'server/utils/trcpReact'
+import { trpcReact } from 'server/trpc/utils/trcpReact'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Loading from 'components/molecules/Loading/Loading.molecule'
 import SearchBar from 'components/molecules/SearchBar/SearchBar.molecule'
 
+import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 import ProductCollection from 'components/organisms/ProductCollection/ProductCollection.organism'
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
@@ -104,6 +105,7 @@ export default function Search() {
           {content}
         </CappedContainerTemplate>
       </PageStack>
+      <ProductAddDrawer />
     </>
   )
 }

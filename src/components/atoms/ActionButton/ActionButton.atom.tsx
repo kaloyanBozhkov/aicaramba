@@ -11,7 +11,7 @@ import styles from './styles.module.scss'
 type ActionButtonProps = {
   label?: string | ReactNode
   className?: string
-  modifier?: string | 'naked' | 'primary' | 'secondary' | 'circularIconBtn'
+  modifier?: string | 'naked' | 'primary' | 'secondary' | 'circularIconBtn' | 'subtle'
   onClick?: () => void
   rightIcon?: IconProp
   leftIcon?: IconProp

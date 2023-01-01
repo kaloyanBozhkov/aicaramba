@@ -16,8 +16,6 @@ const COLORS = {
 
 export const SIZES = {
   'max-window-width': '1200px',
-  'header-desktop-h': '95px',
-  'header-mobile-h': '64px',
 }
 
 const defaultTheme = {
@@ -29,12 +27,16 @@ type theme = typeof defaultTheme
 
 interface IStylesStore {
   theme: theme
+  // used to show/hide header from elsewhere if more screen space is needed
+  headerHidden: boolean
   updateThemeVar: (k: keyof theme, v: theme[keyof theme]) => void
   reset: () => void
+  toggleHeader: (open: boolean) => void
 }
 
 export const useStyles = create<IStylesStore>((set) => ({
   theme: defaultTheme,
+  headerHidden: false,
   updateThemeVar: (k, v) => {
     return set((s) => ({
       theme: {
@@ -44,4 +46,5 @@ export const useStyles = create<IStylesStore>((set) => ({
     }))
   },
   reset: () => set(() => ({ theme: defaultTheme })),
+  toggleHeader: (open) => set({ headerHidden: open }),
 }))

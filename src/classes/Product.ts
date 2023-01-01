@@ -35,6 +35,8 @@ export default class Product {
 
   url: string
 
+  isAvailable: boolean
+
   constructor(product: IProductProps) {
     this.colorScheme = product.colorScheme
     this.currency = product.currency
@@ -46,9 +48,12 @@ export default class Product {
 
     this.imgSrc = Product.getProductImageURL(this.id)
     this.url = Product.getProductPageURL(this.id)
+    this.isAvailable = Product.isAvailable(this.status)
   }
 
   static getProductPageURL = (id: string) => `/artwork/${id}`
 
   static getProductImageURL = (id: string) => `/products/${id}.png`
+
+  static isAvailable = (status: ProductStatus) => ['NEW', 'FIRE'].includes(status)
 }

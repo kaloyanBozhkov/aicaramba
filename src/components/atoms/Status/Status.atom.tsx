@@ -9,27 +9,29 @@ import MainIcons from '../MainIcons/MainIcons.atom'
 
 import styles from './styles.module.scss'
 
-const Status = ({
-  icon,
-  label,
-  variant = 'normal',
-  className,
-}: {
-  icon?: Icon | ProductStatus
-  label: string
-  variant?: 'normal' | 'red' | 'no-text-format'
+type StatysProps = {
   className?: string
-}) => {
-  let iconComponent = null
+  icon?: Icon | ProductStatus
+  label?: string
+  variant?: 'normal' | 'red' | 'no-text-format'
+  status?: ProductStatus
+}
 
-  if (icon && typeof icon === 'string' && Object.values(ProductStatus).includes(icon))
-    iconComponent = <MainIcons icon={icon} />
+const Status = ({ className, icon, label, variant, status }: StatysProps) => {
+  let iconComponent = null,
+    l = label,
+    v = variant
 
-  if (icon && typeof icon !== 'string') iconComponent = <FontAwesomeIcon icon={icon} />
+  if (status) {
+    iconComponent = <MainIcons icon={status} />
+    l = statuses[status].label
+    v = statuses[status].variant
+  } else if (icon && typeof icon !== 'string') iconComponent = <FontAwesomeIcon icon={icon} />
+  else if (icon && statuses[icon]) iconComponent = <MainIcons icon={icon} />
 
   return (
-    <Group className={extendClassNameProp(styles.status, className)} data-variant={variant}>
-      {iconComponent} <p>{label}</p>
+    <Group className={extendClassNameProp(styles.status, className)} data-variant={v}>
+      {iconComponent} {l && <p>{l}</p>}
     </Group>
   )
 }
@@ -38,7 +40,7 @@ export default Status
 
 export type StatusProps = Parameters<typeof Status>[0]
 
-export const Statuses: Record<ProductStatus, StatusProps> = {
+const statuses: Record<ProductStatus, StatusProps> = {
   [ProductStatus.SOLD]: {
     icon: ProductStatus.SOLD,
     label: 'Sold',

@@ -4,36 +4,48 @@ import Link from 'next/link'
 import CornerZoom from 'components/organisms/CornerZoom/CornerZoom.organism'
 
 import { Box, Grid, Stack, Text } from '@mantine/core'
+import type { ProductStatus } from '@prisma/client'
 
+import ArtworkModalTitle from '../ArtworkModalTitle/ArtworkModalTitle'
 import ShirtPreview from '../ShirtPreview/ShirtPreview.molecule'
 
 import styles from './styles.module.scss'
 
-const ProductPreview = ({ imgSrc, zoomTitle }: { imgSrc: string; zoomTitle: string }) => {
-  const artwork = <Image priority src={imgSrc} width={1000} height={1000} alt={zoomTitle} />,
-    whiteShirtPreview = <ShirtPreview imgSrc={imgSrc} shirtColor="white" />,
-    blackShirtPreview = <ShirtPreview imgSrc={imgSrc} shirtColor="black" />
+const ProductPreview = ({
+  imgSrc,
+  zoomTitle,
+  status,
+}: {
+  imgSrc: string
+  zoomTitle: string
+  status: ProductStatus
+}) => {
+  const artwork = <Image priority src={imgSrc} width={1000} height={1000} alt={zoomTitle} />
 
   return (
     <Stack className={styles.productPreview}>
       <Box className={styles.imgContainer}>
-        <CornerZoom zoomTitle={zoomTitle} isAbsolute>
+        <CornerZoom zoomTitle={<ArtworkModalTitle title={zoomTitle} status={status} />} isAbsolute>
           {artwork}
         </CornerZoom>
         {artwork}
       </Box>
       <Grid columns={2}>
         <Grid.Col span={2} xs={1} pos="relative">
-          <CornerZoom isAbsolute zoomTitle={`Black T-Shirt Preview: ${zoomTitle}`}>
-            {blackShirtPreview}
-          </CornerZoom>
-          {blackShirtPreview}
+          <Box pos="relative">
+            <CornerZoom isAbsolute zoomTitle="Preview: Black T-Shirt">
+              <ShirtPreview imgSrc={imgSrc} shirtColor="black" style={{ width: '375px' }} />
+            </CornerZoom>
+            <ShirtPreview imgSrc={imgSrc} shirtColor="black" style={{ width: '100%' }} />
+          </Box>
         </Grid.Col>
-        <Grid.Col span={2} xs={1} pos="relative">
-          <CornerZoom isAbsolute zoomTitle={`White T-Shirt Preview: ${zoomTitle}`}>
-            {whiteShirtPreview}
-          </CornerZoom>
-          {whiteShirtPreview}
+        <Grid.Col span={2} xs={1}>
+          <Box pos="relative">
+            <CornerZoom isAbsolute zoomTitle="Preview: White T-Shirt">
+              <ShirtPreview imgSrc={imgSrc} shirtColor="white" style={{ width: '375px' }} />
+            </CornerZoom>
+            <ShirtPreview imgSrc={imgSrc} shirtColor="white" style={{ width: '100%' }} />
+          </Box>
         </Grid.Col>
         <Grid.Col span={2}>
           <Text className={styles.previewText}>

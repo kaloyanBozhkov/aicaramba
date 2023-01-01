@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import { Box, type BoxProps, Stack, Text } from '@mantine/core'
+import { Box, type BoxProps } from '@mantine/core'
 
 import { extendClassNameProp } from 'utils/utils.common'
 

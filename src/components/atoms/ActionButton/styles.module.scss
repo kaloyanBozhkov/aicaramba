@@ -11,13 +11,12 @@ button.actionButton {
     color: $primaryBack;
     font-size: 1.8rem;
     border-radius: 30px;
+    transition: all 300ms;
 
     p {
       color: $primaryBack;
       font-weight: bold;
     }
-
-    transition: all 300ms;
 
     &:hover,
     &:focus {
@@ -35,13 +34,12 @@ button.actionButton {
     color: $textPrimary;
     font-size: 1.8rem;
     border-radius: 30px;
+    transition: all 300ms;
 
     p {
       color: $textPrimary;
       font-weight: 600;
     }
-
-    transition: all 300ms;
 
     &:hover,
     &:focus {
@@ -49,10 +47,26 @@ button.actionButton {
     }
   }
 
-  &[data-modifier="naked"] {
+  &[data-modifier="naked"],
+  &[data-modifier="subtle"] {
     background: none;
     box-shadow: none;
     color: inherit;
+  }
+
+  &[data-modifier="subtle"] {
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: 1.3rem;
+    height: fit-content;
+    padding: 0;
+    opacity: 70%;
+    font-weight: normal;
+
+    &:hover {
+      opacity: 100%;
+    }
   }
 
   &:not([data-modifier]),

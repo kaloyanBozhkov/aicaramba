@@ -5,43 +5,20 @@
   border-top-right-radius: 8px;
   padding: 15px;
 
+  .summaryCard {
+    margin-bottom: $marginUnit;
+  }
+
   :global(.mantine-Drawer-drawer) {
     max-height: 88vh;
-    padding-bottom: 0;
     overflow: auto;
+    padding-bottom: $paddingUnit;
   }
 
   :global(.mantine-Drawer-header) {
     position: absolute;
     right: $baseUnit;
     top: $baseUnit;
-  }
-
-  .mobileAddToBagInfo {
-    align-items: stretch;
-    margin-bottom: $marginUnit;
-
-    .preview {
-      width: 14rem;
-      height: 14rem;
-      align-self: center;
-    }
-
-    > div {
-      flex: 1;
-      width: unset;
-      padding: 0;
-      margin: 0;
-
-      > div {
-        padding: 0;
-
-        &:first-child {
-          // fix gap between first item (NEW - Status) and second item (title)
-          margin-bottom: -2rem;
-        }
-      }
-    }
   }
 
   .remove {

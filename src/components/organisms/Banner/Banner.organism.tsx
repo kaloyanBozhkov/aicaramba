@@ -8,13 +8,13 @@ import useTabletCheck from 'hooks/styles/useTabletCheck'
 
 import RichText from 'components/molecules/RichText/RichText.molecule'
 
-import { Center, Overlay } from '@mantine/core'
+import { Center, Group, Overlay } from '@mantine/core'
 
 import styles from './styles.module.scss'
 
 const Banner = () => {
   const [count, setCount] = useState(0),
-    isMobile = useMobileCheck(),
+    isMobile = useMobileCheck({ onlyPortrait: true }),
     isSmallTablet = useTabletCheck({ tabletSizeTarget: 'small' })
 
   // handle slide changes for mobile
@@ -44,9 +44,14 @@ const Banner = () => {
             </>
           }
         />
-        <NavLink href="/catalog" data-naked="true">
-          <p>Explore now</p>
-        </NavLink>
+        <Group spacing="xl">
+          <NavLink href="/catalog" data-naked="true">
+            <p>Explore now</p>
+          </NavLink>
+          <NavLink href="/faq" data-naked="true">
+            <p>Learn more</p>
+          </NavLink>
+        </Group>
       </Center>
       <Overlay className={styles.overlay} color="#000" zIndex={5} />
       {isMobile && (

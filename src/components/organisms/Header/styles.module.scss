@@ -3,55 +3,63 @@
 @import "scss/mixins";
 @import "scss/variables";
 
-.header {
+.headerWrapper {
   height: $headerDesktopH;
-  background-color: $primaryBack;
-  border-bottom: 1px solid $primaryBorder;
-  z-index: 100;
 
-  &[data-scroll-dir="down"] {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    transform: translateY(-100%);
-    @include animate(slide-out-top, 400ms);
-  }
+  .header {
+    height: $headerDesktopH;
+    background-color: $primaryBack;
+    border-bottom: 1px solid $primaryBorder;
+    z-index: 100;
 
-  &[data-scroll-dir="up"] {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-
-    @include animate(slide-in-top, 400ms);
-  }
-
-  .icon {
-    transition: transform 200ms;
-
-    &:hover {
-      transform: scale(1.1);
+    &[data-scroll-dir="down"] {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      transform: translateY(-100%);
+      @include animate(slide-out-top, 400ms);
     }
-  }
 
-  > .wrapper {
-    height: 100%;
-    width: 100%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    gap: $marginUnit;
+    &[data-scroll-dir="up"] {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
 
-    > a {
+      @include animate(slide-in-top, 400ms);
+    }
+
+    &[data-scroll-dir="hidden"] {
+      display: none;
+    }
+
+    .icon {
+      transition: transform 200ms;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    > .wrapper {
       height: 100%;
-      display: flex;
-      border: none;
+      width: 100%;
       align-items: center;
-    }
-
-    > :global(.mantine-Group-root) {
+      display: flex;
+      justify-content: center;
       gap: $marginUnit;
+
+      > a {
+        height: 100%;
+        display: flex;
+        border: none;
+        align-items: center;
+      }
+
+      > :global(.mantine-Group-root) {
+        gap: $marginUnit;
+      }
     }
   }
 }
@@ -67,7 +75,7 @@
   &[data-scroll-dir="base"] {
     max-height: calc(100vh - $announcementH - $headerMobileH);
     // height of banner + header
-    top: $announcementH + $headerMobileH;
+    top: calc($announcementH + $headerMobileH);
   }
 
   &[data-scroll-dir="up"] {
@@ -179,73 +187,119 @@
       }
     }
   }
-}
 
-.headerMobile {
-  z-index: 101;
-  width: 100%;
-  height: $headerMobileH;
-  background-color: $primaryBack;
-  border-bottom: 1px solid $primaryBorder;
-
-  &[data-scroll-dir="down"] {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    @include animate(slide-out-top, 400ms);
-  }
-
-  &[data-scroll-dir="up"] {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-
-    @include animate(slide-in-top, 400ms);
-  }
-
-  > .wrapper {
-    height: 100%;
-    align-items: center;
-    justify-content: space-between;
-    display: flex;
-    gap: $marginUnit;
-
-    :global(.mantine-Group-root) {
-      gap: $marginUnit;
+  @include mediaQuery(mobile) {
+    :global(.mantine-Drawer-title) {
+      margin-left: $baseUnit;
+      margin-bottom: 0;
     }
 
-    .odd,
-    .even {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      align-items: center;
-      display: flex;
-    }
+    .nav {
+      margin: 0 (-$baseUnit);
 
-    .even {
-      width: 10rem;
-
-      &:first-child {
-        justify-content: flex-start;
+      .subTitle {
+        margin: $paddingUnit;
       }
-
-      &:last-child {
-        justify-content: flex-end;
-      }
-    }
-
-    .odd {
-      flex: 1;
-      justify-content: center;
 
       > a {
+        font-size: 1.5rem;
+        padding: 1.2rem $paddingUnit;
+      }
+    }
+
+    .footer {
+      height: 11rem;
+      margin: 0 (-$baseUnit);
+
+      > a {
+        font-size: 1.5rem;
+        padding: 1.3rem $paddingUnit;
+      }
+
+      > div a {
+        margin: 0;
+      }
+    }
+
+    :global(.mantine-Drawer-drawer) {
+      padding: $baseUnit;
+    }
+  }
+}
+
+.headerMobileWrapper {
+  height: $headerMobileH;
+
+  .headerMobile {
+    z-index: 101;
+    width: 100%;
+    height: $headerMobileH;
+    background-color: $primaryBack;
+    border-bottom: 1px solid $primaryBorder;
+
+    &[data-scroll-dir="down"] {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      @include animate(slide-out-top, 400ms);
+    }
+
+    &[data-scroll-dir="up"] {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+
+      @include animate(slide-in-top, 400ms);
+    }
+
+    &[data-scroll-dir="hidden"] {
+      display: none;
+    }
+
+    > .wrapper {
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      gap: $marginUnit;
+
+      :global(.mantine-Group-root) {
+        gap: $marginUnit;
+      }
+
+      .odd,
+      .even {
+        margin: 0;
+        padding: 0;
         height: 100%;
-        display: flex;
         align-items: center;
-        border: none;
+        display: flex;
+      }
+
+      .even {
+        width: 10rem;
+
+        &:first-child {
+          justify-content: flex-start;
+        }
+
+        &:last-child {
+          justify-content: flex-end;
+        }
+      }
+
+      .odd {
+        flex: 1;
+        justify-content: center;
+
+        > a {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          border: none;
+        }
       }
     }
   }

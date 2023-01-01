@@ -115,3 +115,30 @@ ul {
     z-index: $zIndexTop;
   }
 }
+
+h2 {
+  &[data-with-quotes="true"] {
+    &::before,
+    &::after {
+      content: '"';
+    }
+  }
+
+  &[data-uppercase="true"] {
+    text-transform: uppercase;
+  }
+
+  &[data-capitalize="true"] {
+    text-transform: capitalize;
+  }
+
+  &[data-variant="primary"] {
+    font-size: 2rem;
+  }
+
+  &[data-variant="secondary"] {
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+  }
+}

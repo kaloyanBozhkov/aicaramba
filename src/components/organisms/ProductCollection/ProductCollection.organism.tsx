@@ -1,6 +1,7 @@
 import { ReactNode, useMemo } from 'react'
 
 import NavLink from 'next/link'
+
 import { useCart } from 'stores/Cart.store'
 
 import Product, { IProductProps } from 'classes/Product'
@@ -25,7 +26,9 @@ const ProductCollection = ({
   goTo?: string
 }) => {
   const p = useMemo(() => products.map((p) => new Product(p)), [products]),
-    cart = useCart()
+    { add, remove } = useCart((cart) => cart.controls),
+    cartPending = useCart((cart) => cart.pending),
+    cartProducts = useCart((cart) => cart.products)
 
   return (
     <FluidContainer className={styles.productCollection}>
@@ -42,17 +45,28 @@ const ProductCollection = ({
         )}
       </Group>
       <Grid columns={12} gutter="md">
-        {p.map((product, idx) => (
-          <Grid.Col key={product.id + idx} xs={6} sm={6} md={4} lg={3} xl={3}>
-            <ProductCard
-              {...product}
-              isPending={cart.pending.includes(product.id)}
-              selectedSize={cart.products[product.id]?.size}
-              onAddToCart={cart.add}
-              onRemoveFromCart={cart.remove}
-            />
-          </Grid.Col>
-        ))}
+        {p.map((product, idx) => {
+          const { imgSrc, name, id, url, price, currency, colorScheme, style, status } = product
+          return (
+            <Grid.Col key={product.id + idx} xs={6} sm={6} md={4} lg={3} xl={3}>
+              <ProductCard
+                price={price}
+                colorScheme={colorScheme}
+                style={style}
+                currency={currency}
+                status={status}
+                name={name}
+                imgSrc={imgSrc}
+                url={url}
+                id={id}
+                isPending={cartPending.includes(product.id)}
+                selectedSize={cartProducts[product.id]?.size}
+                onAddToCart={add}
+                onRemoveFromCart={remove}
+              />
+            </Grid.Col>
+          )
+        })}
       </Grid>
     </FluidContainer>
   )

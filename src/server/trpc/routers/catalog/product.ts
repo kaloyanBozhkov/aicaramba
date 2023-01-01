@@ -1,4 +1,4 @@
-import { publicProcedure, router } from 'server/trpc'
+import { publicProcedure, router } from '../../trpc'
 
 const select = {
   currency: true,
@@ -10,7 +10,7 @@ const select = {
   name: true,
 }
 
-export const homeRouter = router({
+export const catalogRouter = router({
   products: publicProcedure.query(({ ctx: { prisma } }) => {
     return {
       freshDeals: prisma.product.findMany({

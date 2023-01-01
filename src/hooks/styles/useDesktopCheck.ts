@@ -1,11 +1,10 @@
-import useMobileCheck from './useMobileCheck'
-import useTabletCheck from './useTabletCheck'
+import { useMediaQuery } from '@mantine/hooks'
 
-const useDesktopCheck = () => {
-  const isMobile = useMobileCheck(),
-    isTablet = useTabletCheck()
-
-  return !isMobile && !isTablet
+const useDesktopCheck = (initialValue = false) => {
+  const isDesktop = useMediaQuery('(min-width: 1200px)', initialValue, {
+    getInitialValueInEffect: false,
+  })
+  return isDesktop
 }
 
 export default useDesktopCheck

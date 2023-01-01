@@ -1,7 +1,5 @@
 import { RefObject, useEffect } from 'react'
 
-import { headerScrollDir } from 'components/organisms/Header/config.constant'
-
 import { useViewportSize } from '@mantine/hooks'
 
 /**
@@ -81,20 +79,20 @@ const useTranslateDivWithScroll = ({
         ? Math.floor(Math.abs(top))
         : 0
 
-    if (
-      (!startTranslatingAt && !stopTranslatingAt) ||
-      (startTranslatingAt && !stopTranslatingAt && window.scrollY > startTranslatingAt) ||
-      (stopTranslatingAt && !startTranslatingAt && window.scrollY < stopTranslatingAt) ||
-      (window.scrollY > startTranslatingAt && window.scrollY < stopTranslatingAt)
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      childRef.current.style.transform = `translateY(${
-        newTop +
-        (withHeader && headerScrollDir.current === 'up'
-          ? headerScrollDir['header-desktop-h'] + 1
-          : 0)
-      }px)`
-    }
+    // if (
+    //   (!startTranslatingAt && !stopTranslatingAt) ||
+    //   (startTranslatingAt && !stopTranslatingAt && window.scrollY > startTranslatingAt) ||
+    //   (stopTranslatingAt && !startTranslatingAt && window.scrollY < stopTranslatingAt) ||
+    //   (window.scrollY > startTranslatingAt && window.scrollY < stopTranslatingAt)
+    // ) {
+    //   // eslint-disable-next-line no-param-reassign
+    //   childRef.current.style.transform = `translateY(${
+    //     newTop +
+    //     (withHeader && headerScrollDir.current === 'up'
+    //       ? headerScrollDir['header-desktop-h'] + 1
+    //       : 0)
+    //   }px)`
+    // }
   }
 
 export default useTranslateDivWithScroll

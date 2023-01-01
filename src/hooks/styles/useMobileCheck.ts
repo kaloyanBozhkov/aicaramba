@@ -1,27 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useMediaQuery } from '@mantine/hooks'
 
-const useMobileCheck = ({ onlyPortrait }: { onlyPortrait: boolean } = { onlyPortrait: false }) => {
-  const [isMobile, setIsMobile] = useState(false)
+const useMobileCheck = ({
+  onlyPortrait = false,
+  initialValue = false,
+}: {
+  onlyPortrait?: boolean
+  initialValue?: boolean
+} = {}) => {
+  const isMobilePortrait = useMediaQuery(mobileSizes.portrait, initialValue, {
+      getInitialValueInEffect: false,
+    }),
+    isMobileLandscape = useMediaQuery(mobileSizes.landscape)
 
-  useEffect(() => {
-    const updateIsMobile = () => {
-      const isMobile =
-        window.matchMedia('(max-width: 599px) and (orientation: portrait)').matches ||
-        (!onlyPortrait &&
-          window.matchMedia('(max-height: 599px) and (orientation: landscape)').matches)
-
-      setIsMobile(isMobile)
-    }
-
-    // run initially on mount
-    updateIsMobile()
-
-    window.addEventListener('resize', updateIsMobile)
-
-    return () => window.removeEventListener('resize', updateIsMobile)
-  }, [onlyPortrait])
-
-  return isMobile
+  return isMobilePortrait || (!onlyPortrait && isMobileLandscape)
 }
 
 export default useMobileCheck
+
+const mobileSizes = {
+  portrait: '(max-width: 599px) and (orientation: portrait)',
+  landscape: '(max-height: 599px) and (orientation: landscape)',
+}

@@ -1,6 +1,6 @@
-import { publicProcedure, router } from 'server/trpc'
-
 import { z } from 'zod'
+
+import { publicProcedure, router } from '../../trpc'
 
 const select = {
   currency: true,

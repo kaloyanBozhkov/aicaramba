@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import Image from 'next/image'
+
 import { useModal } from 'stores/Modal.store'
 
 import Chips from 'components/molecules/Chips/Chips.molecule'
@@ -18,25 +19,33 @@ export const sizes = Object.values(Size)
 const ProductSize = ({
   selected,
   onSizeSelected,
+  onAddAnimationEnded,
   pending,
   variant,
 }: {
   selected?: Size
   pending: boolean
   onSizeSelected: (size: Size) => void
+  onAddAnimationEnded?: () => void
   variant: 'row' | 'column'
 }) => {
-  const [selectedSize, setSelectedSize] = useState<Size | undefined>(selected),
-    [justAdded, setJustAdded] = useToggle(),
-    sizeGuide = useMemo(() => <SizeGuide />, []),
-    openModal = useModal(({ controls: { openModal } }) => openModal)
+  const sizeGuide = useMemo(() => <SizeGuide />, []),
+    openModal = useModal(({ controls: { openModal } }) => openModal),
+    [justAdded, setJustAdded] = useToggle()
 
+  // handle UI "Added" showing briefly
   useEffect(() => {
-    if (!pending) {
-      const id = setTimeout(() => setJustAdded(false), 1000)
-      return () => clearTimeout(id)
+    let timeoutId: undefined | ReturnType<typeof setTimeout>
+
+    if (selected && !pending && justAdded) {
+      timeoutId = setTimeout(() => {
+        setJustAdded(false)
+        onAddAnimationEnded?.()
+      }, 1000)
     }
-  }, [pending, setJustAdded])
+
+    return () => timeoutId && clearTimeout(timeoutId)
+  }, [selected, pending, setJustAdded, onAddAnimationEnded, justAdded])
 
   return (
     <Stack className={styles.productSize}>
@@ -58,7 +67,7 @@ const ProductSize = ({
           rounded={false}
           variant="fill"
           pending={pending}
-          selected={selectedSize}
+          selected={selected}
           items={sizes}
           className={styles.sizes}
           onSelected={onSizeSelected}
@@ -67,16 +76,16 @@ const ProductSize = ({
       {variant === 'column' && (
         <Stack className={styles.sizesC}>
           {sizes.map((size) => {
-            const isSelected = selectedSize === size,
+            const isSelected = selected === size,
               selectedIsPending = isSelected && pending
+
             return (
               <button
-                disabled={(!isSelected && pending) || undefined}
+                disabled={(!isSelected && (pending || justAdded)) || undefined}
                 key={size}
                 onClick={() => {
                   if (pending) return
                   onSizeSelected(size)
-                  setSelectedSize(size)
                   setJustAdded(true)
                 }}
                 data-focused={

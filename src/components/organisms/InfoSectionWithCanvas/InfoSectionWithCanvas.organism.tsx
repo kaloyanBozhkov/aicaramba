@@ -20,13 +20,13 @@ const InfoSectionWithCanvas = ({
   imgSrc,
   title,
   text,
-  icon,
+  status,
   zoomTitle,
 }: {
   imgSrc: string
   title: string
   text: string | ReactNode
-  icon?: ProductStatus
+  status: ProductStatus
   zoomTitle: string
 }) => {
   const [expanded, setExpanded] = useState(false),
@@ -46,7 +46,7 @@ const InfoSectionWithCanvas = ({
       ref={ref}
       className={styles.infoSectionWithCanvas}
       data-expanded={expanded}
-      data-variant={icon ? icon.toLowerCase() : undefined}
+      data-variant={status ? status.toLowerCase() : undefined}
     >
       <Wave position="top" />
       <CappedContainerTemplate withWrapper className={styles.content}>
@@ -54,7 +54,7 @@ const InfoSectionWithCanvas = ({
           <RichText
             alignment="left"
             title={title}
-            topComponent={icon && <MainIcons icon={icon} />}
+            topComponent={status && <MainIcons icon={status} />}
             className={styles.richText}
           >
             {text}
@@ -65,7 +65,7 @@ const InfoSectionWithCanvas = ({
                                 <CanvasScene imgSrc={imgSrc} title={zoomTitle} />
                             </div>
                         </div> */}
-            <CanvasImageDisplay imgSrc={imgSrc} zoomTitle={zoomTitle} />
+            <CanvasImageDisplay imgSrc={imgSrc} zoomTitle={zoomTitle} status={status} />
           </div>
         </Group>
       </CappedContainerTemplate>

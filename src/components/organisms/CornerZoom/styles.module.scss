@@ -1,6 +1,8 @@
 @import "scss/variables";
 
 .buttonWrapper {
+  z-index: 1;
+
   &[data-is-absolute="true"] {
     overflow: hidden;
     position: absolute;

@@ -28,12 +28,12 @@ const mainNav: NavItem[] = [
         subtitle: 'Available Deals',
         content: [
           {
-            to: '/products/fresh',
+            to: '/artworks/fresh',
             label: 'Fresh Artworks',
             icon: ProductStatus.NEW,
           },
           {
-            to: '/products/fire',
+            to: '/artworks/fire',
             label: 'Fire Artworks',
             icon: ProductStatus.FIRE,
           },
@@ -43,12 +43,12 @@ const mainNav: NavItem[] = [
         subtitle: 'Missed Deals',
         content: [
           {
-            to: '/products/sold',
+            to: '/artworks/sold',
             label: 'Sold Artworks',
             icon: ProductStatus.SOLD,
           },
           {
-            to: '/products/missed',
+            to: '/artworks/missed',
             label: 'Gone Artworks',
             icon: ProductStatus.GONE,
           },

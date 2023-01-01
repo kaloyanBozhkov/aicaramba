@@ -31,7 +31,8 @@
       width: 100%;
     }
 
-    &.modal {
+    &.modal,
+    &.cart {
       position: absolute;
       top: 0;
       bottom: 0;

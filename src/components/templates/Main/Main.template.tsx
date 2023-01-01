@@ -8,15 +8,17 @@ type MainTemplateProps = {
   children: ReactNode
   banner: ReactElement | null
   footer: ReactNode
+  cart: ReactNode | null
 }
 
-const MainTemplate = ({ header, modal, banner, footer, children }: MainTemplateProps) => (
+const MainTemplate = ({ header, modal, banner, footer, children, cart }: MainTemplateProps) => (
   <div className={styles.mainTemplate}>
     {banner && <section className={styles.banner}>{banner}</section>}
     <header>{header}</header>
     <main>{children}</main>
     <section className={styles.footer}>{footer}</section>
     {modal && <section className={styles.modal}>{modal}</section>}
+    {cart && <section className={styles.cart}>{cart}</section>}
   </div>
 )
 

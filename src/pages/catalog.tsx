@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { trcpCaller } from 'server/routers/_app'
+import { trcpCaller } from 'server/trpc/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
+import { useProducts } from 'stores/Products.store'
+
 import { IProductProps } from 'classes/Product'
 
 import CatalogBanner from 'components/organisms/CatalogBanner/CatalogBanner.organism'
+import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 import ProductCollection from 'components/organisms/ProductCollection/ProductCollection.organism'
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
@@ -19,6 +22,13 @@ export default function Catalogue({
   fireDeals,
   soldDeals,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const addP = useProducts((s) => s.addP)
+
+  useEffect(
+    () => addP([...freshDeals, ...fireDeals, ...soldDeals, ...goneDeals]),
+    [addP, soldDeals, freshDeals, fireDeals, goneDeals]
+  )
+
   return (
     <>
       <Head>
@@ -58,6 +68,7 @@ export default function Catalogue({
           />
         </CappedContainerTemplate>
       </PageStack>
+      <ProductAddDrawer />
     </>
   )
 }

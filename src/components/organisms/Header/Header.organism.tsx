@@ -3,11 +3,14 @@ import Link from 'next/link'
 
 import mainNav from 'routing/navLinks/mainNav'
 
+import { useStyles } from 'stores/Styles.store'
+
 import useVerticalScrollDirection from 'hooks/styles/useVerticalScrollDirection'
 
 import Logo from 'components/atoms/Logo/Logo.atom'
 import Status from 'components/atoms/Status/Status.atom'
 
+import CartButton from 'components/molecules/CartButton/CartButton.molecule'
 import { SubNavItems } from 'components/molecules/NavItemRenderer/NavItemRender.molecule'
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
@@ -15,24 +18,21 @@ import FluidContainer from 'components/templates/FluidContainer/FluidContainer.t
 
 import { Group, Menu, Space } from '@mantine/core'
 
-import { headerScrollDir } from './config.constant'
-
 import styles from './styles.module.scss'
 
 const Header = () => {
   // limit to height of banner
   const scrollDir = useVerticalScrollDirection({
-    endAt: announcementHeight,
-    startAt: totalHeight,
-  })
-
-  // when other parts of the system need this info
-  headerScrollDir.current = scrollDir
+      endAt: announcementHeight,
+      startAt: totalHeight,
+    }),
+    headerHidden = useStyles((s) => s.headerHidden),
+    // other parts of app can hide the header
+    scrollDirOverwritten = headerHidden ? 'hidden' : scrollDir
 
   return (
-    <>
-      {scrollDir !== 'base' && <Space style={{ height: headerHeight }} />}
-      <FluidContainer className={styles.header} data-scroll-dir={scrollDir}>
+    <div className={styles.headerWrapper}>
+      <FluidContainer className={styles.header} data-scroll-dir={scrollDirOverwritten}>
         <CappedContainerTemplate withoutPadding className={styles.wrapper}>
           <Link href="/" data-naked="true">
             <Logo height="85%" />
@@ -86,20 +86,11 @@ const Header = () => {
                 className={styles.icon}
               />
             </Link>
-            {/* @TODO repalce with widget that pops open when cart item is added */}
-            <Link data-naked="true" href="/cart">
-              <Image
-                src="/assets/icons/shopping-basket.svg"
-                alt="shopping-basket icon"
-                width={iconSize}
-                height={iconSize}
-                className={styles.icon}
-              />
-            </Link>
+            <CartButton iconSize={iconSize} />
           </Group>
         </CappedContainerTemplate>
       </FluidContainer>
-    </>
+    </div>
   )
 }
 

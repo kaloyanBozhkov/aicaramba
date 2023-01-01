@@ -2,30 +2,18 @@
 @import "scss/variables";
 
 .productInfo {
+  [data-naked="true"] {
+    opacity: 100%;
+    display: inline-block;
+
+    &:hover {
+      opacity: 70%;
+    }
+  }
+
   .title {
     letter-spacing: 0.5px;
     text-transform: capitalize;
-
-    h2 {
-      &::before,
-      &::after {
-        content: '"';
-      }
-
-      &[data-uppercase="true"] {
-        text-transform: uppercase;
-      }
-
-      &[data-variant="primary"] {
-        font-size: 2rem;
-      }
-
-      &[data-variant="secondary"] {
-        font-weight: 400;
-        font-size: 1.6rem;
-        line-height: 1.8rem;
-      }
-    }
   }
 
   p {

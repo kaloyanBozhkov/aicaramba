@@ -19,7 +19,7 @@ const AboutUs = () => (
       }
       variation="black"
       alignment="left"
-      style={{ maxWidth: '80rem' }}
+      style={{ maxWidth: '80rem', letterSpacing: '1px' }}
     >
       AI Caramba aims to provide <b>truly unique T-Shirts of the highest quality</b> to AI
       enthusiasts, captivating art lovers, collectionists or just high quality clothing fans.

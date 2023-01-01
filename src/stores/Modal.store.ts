@@ -1,16 +1,16 @@
-import { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 
 import create from 'zustand'
 
 interface IModalComponentProps {
-  title?: string
+  title?: ReactNode
   children?: ReactElement
   className?: string
 }
 
 interface IModalStore {
   modalProps: {
-    title?: string
+    title?: ReactNode
     children?: ReactElement
     opened: boolean
     className?: string

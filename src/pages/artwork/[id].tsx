@@ -1,13 +1,16 @@
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { trcpCaller } from 'server/routers/_app'
+import { trcpCaller } from 'server/trpc/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
+
 import { useCart } from 'stores/Cart.store'
 
-import { IProductProps } from 'classes/Product'
-import Product from 'classes/Product'
+import Product, { type IProductProps } from 'classes/Product'
+
+import useMobileCheck from 'hooks/styles/useMobileCheck'
+import useTabletCheck from 'hooks/styles/useTabletCheck'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 import MessageContent from 'components/atoms/MessageContent/MessageContent.atom'
@@ -46,9 +49,9 @@ export default function Artwork({
   isAvailable,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const product = new Product(p),
-    cart = useCart(),
-    isPending = cart.pending.includes(product.id),
-    inCart = cart.products[product.id],
+    cartControls = useCart((cart) => cart.controls),
+    inCart = useCart(useCallback((cart) => cart.products[p.id], [p.id])),
+    isPending = useCart(useCallback((cart) => cart.pending.includes(p.id), [p.id])),
     [color, setColor] = useState<Color>(Color.BLACK),
     [size, setSize] = useState<Size>(Size.L),
     changedConfig = useMemo(() => {
@@ -57,8 +60,8 @@ export default function Artwork({
     }, [inCart, size, color]),
     canRemove = inCart && !changedConfig,
     action = useRef(''),
-    parentSettingsRef = useRef(null),
-    childSettingsRef = useRef(null)
+    isMobile = useMobileCheck(),
+    isPortraitTablet = useTabletCheck({ onlyPortrait: true, tabletSizeTarget: 'small' })
 
   // @TODO add removing or updating text if needed
   if (isPending) action.current = 'ADDING TO BAG'
@@ -67,14 +70,28 @@ export default function Artwork({
   else action.current = 'ADD TO BAG'
 
   const subToUpdatesBtn = (
-    <ActionButton
-      withShadow
-      label="SUBSCRIBE TO UPDATES"
-      modifier="secondary"
-      leftIcon={faEnvelope}
-      onClick={console.warn}
-    />
-  )
+      <ActionButton
+        withShadow
+        label="SUBSCRIBE TO UPDATES"
+        modifier="secondary"
+        leftIcon={faEnvelope}
+        onClick={console.warn}
+      />
+    ),
+    productInfo = (
+      <ProductInfo
+        uppercase
+        withStatusLink
+        layoutVariant="primary"
+        textVariant="primary"
+        style={product.style}
+        colorScheme={product.colorScheme}
+        status={product.status}
+        name={product.name}
+        price={product.price}
+        currency={product.currency}
+      />
+    )
 
   return (
     <>
@@ -86,35 +103,31 @@ export default function Artwork({
       <PageStack>
         <CappedContainerTemplate withWrapper>
           <ProductTemplate
-            leftSide={<ProductPreview imgSrc={product.imgSrc} zoomTitle={product.name} />}
+            leftSide={
+              <>
+                {(isMobile || isPortraitTablet) && productInfo}
+                <ProductPreview
+                  imgSrc={product.imgSrc}
+                  zoomTitle={product.name}
+                  status={product.status}
+                />
+              </>
+            }
             rightSide={
               <>
-                <ProductInfo
-                  uppercase
-                  layoutVariant="primary"
-                  textVariant="primary"
-                  style={product.style}
-                  colorScheme={product.colorScheme}
-                  status={product.status}
-                  name={product.name}
-                  price={product.price}
-                  currency={product.currency}
-                />
+                {productInfo}
                 {isAvailable ? (
                   <>
                     <ProductColorSelector
                       imgSrc={product.imgSrc}
                       onColorSelected={setColor}
-                      activeColor={inCart?.color || color}
+                      activeColor={color}
                     />
                     <ProductSize
                       pending={isPending}
                       variant="row"
-                      selected={inCart?.size || size}
-                      onSizeSelected={(s) => {
-                        if (s === size) return
-                        setSize(s)
-                      }}
+                      selected={size}
+                      onSizeSelected={setSize}
                     />
                     <Stack
                       style={{
@@ -130,16 +143,16 @@ export default function Artwork({
                         leftIcon={canRemove ? faCircleXmark : isPending ? undefined : faBagShopping}
                         onClick={() => {
                           if (canRemove) {
-                            cart.remove(product.id)
+                            cartControls.remove(product.id)
                             return
                           }
 
                           if (inCart) {
-                            cart.update(product.id, { size, color })
+                            cartControls.update(product.id, { size, color })
                             return
                           }
 
-                          cart.add(product.id, size, color)
+                          cartControls.add(product, size, color)
                         }}
                         data-fixed-mobile="bottom"
                         data-fixed-tabletsmall="bottom"

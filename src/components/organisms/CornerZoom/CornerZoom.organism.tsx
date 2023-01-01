@@ -1,6 +1,7 @@
-import { type ReactElement, useMemo } from 'react'
+import { type ReactElement, type ReactNode, useMemo } from 'react'
 
 import Image from 'next/image'
+
 import { useModal } from 'stores/Modal.store'
 
 import useDesktopCheck from 'hooks/styles/useDesktopCheck'
@@ -22,7 +23,7 @@ const CornerZoom = ({
   children,
 }: {
   className?: string
-  zoomTitle: string
+  zoomTitle: ReactNode
   isAbsolute?: boolean
   children: ReactElement
 }) => {

@@ -5,43 +5,48 @@ import Link from 'next/link'
 
 import mainNav from 'routing/navLinks/mainNav'
 
+import { useStyles } from 'stores/Styles.store'
+
 import useOnLocationChange from 'hooks/location/useOnLocationChange'
 import useVerticalScrollDirection from 'hooks/styles/useVerticalScrollDirection'
 
 import Logo from 'components/atoms/Logo/Logo.atom'
 import CreatorSignature from 'components/atoms/Signature/CreatorSignature.atom'
 
+import CartButton from 'components/molecules/CartButton/CartButton.molecule'
 import { NavItems } from 'components/molecules/NavItemRenderer/NavItemRender.molecule'
 import SocialFollowing from 'components/molecules/SocialFollowing/SocialFollowing.molecule'
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
 
-import { Burger, Container, Drawer, Group, Space, Stack } from '@mantine/core'
+import { Burger, Container, Drawer, Group, Stack } from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
 
 import styles from './styles.module.scss'
 
 const HeaderMobile = () => {
   const [menuOpened, toggleMenuOpened] = useToggle([false, true]),
+    [menuAnimationEnded, toggleMenuAnimationEnded] = useToggle([true, false]),
     // limit to height of banner
     scrollDir = useVerticalScrollDirection({
       endAt: announcementHeight,
       startAt: totalHeight,
-    })
+    }),
+    headerHidden = useStyles((s) => s.headerHidden),
+    // other parts of app can hide the header
+    scrollDirOverwritten = headerHidden ? 'hidden' : scrollDir,
+    menuShowing = (menuOpened || !menuAnimationEnded) && !headerHidden
+
+  console.log(headerHidden)
 
   useOnLocationChange({ onChange: () => toggleMenuOpened(false) })
 
   return (
-    <>
-      {scrollDir !== 'base' && !menuOpened && <Space style={{ height: headerHeight }} />}
-      <Container
-        fluid
-        className={styles.headerMobile}
-        data-scroll-dir={menuOpened ? 'up' : scrollDir}
-      >
+    <div className={styles.headerMobileWrapper}>
+      <Container fluid className={styles.headerMobile} data-scroll-dir={scrollDirOverwritten}>
         <CappedContainerTemplate withWrapper className={styles.wrapper}>
           <Container className={styles.even}>
-            <Burger opened={menuOpened} onClick={() => toggleMenuOpened((o) => !o)} />
+            <Burger opened={menuShowing} onClick={() => toggleMenuOpened((o) => !o)} />
           </Container>
           <Container className={styles.odd}>
             <Link href="/" data-naked="true">
@@ -59,32 +64,25 @@ const HeaderMobile = () => {
                 className={styles.icon}
               />
             </Link>
-            {/* @TODO repalce with widget that pops open when cart item is added */}
-            <Link data-naked="true" href="/cart">
-              <Image
-                src="/assets/icons/shopping-basket.svg"
-                alt="shopping-basket icon"
-                width={iconSize}
-                height={iconSize}
-                className={styles.icon}
-              />
-            </Link>
+            <CartButton iconSize={iconSize} />
           </Group>
         </CappedContainerTemplate>
       </Container>
       <Drawer
         closeOnClickOutside
         closeOnEscape
-        transitionDuration={400}
+        transitionDuration={300}
         withCloseButton={false}
         overlayOpacity={0.3}
         title="AI Caramba"
         padding="xl"
         size="xl"
+        onTransitionEnd={() => toggleMenuAnimationEnded(!menuOpened)}
         onClose={() => toggleMenuOpened(false)}
-        data-scroll-dir={menuOpened ? 'up' : scrollDir}
+        data-scroll-dir={scrollDirOverwritten}
         opened={menuOpened}
         className={styles.sideMenu}
+        lockScroll
       >
         <Stack className={styles.nav}>
           <NavItems
@@ -110,7 +108,7 @@ const HeaderMobile = () => {
           <CreatorSignature variant="secondary" />
         </Stack>
       </Drawer>
-    </>
+    </div>
   )
 }
 

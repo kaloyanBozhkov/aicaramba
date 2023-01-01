@@ -3,16 +3,20 @@ import { useState } from 'react'
 import Image from 'next/image'
 import NavLink from 'next/link'
 
+import { useCart } from 'stores/Cart.store'
+
+import Product, { IProductProps } from 'classes/Product'
+
 import useDesktopCheck from 'hooks/styles/useDesktopCheck'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 
+import ArtworkModalTitle from 'components/molecules/ArtworkModalTitle/ArtworkModalTitle'
 import Chips from 'components/molecules/Chips/Chips.molecule'
 import ProductInfo, { IProductInfo } from 'components/molecules/ProductInfo/ProductInfo.molecule'
 import { sizes } from 'components/molecules/ProductSize/ProductSize.molecule'
 
 import CornerZoom from 'components/organisms/CornerZoom/CornerZoom.organism'
-import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 
 import FluidContainer from 'components/templates/FluidContainer/FluidContainer.template'
 
@@ -30,7 +34,7 @@ interface IProductCard extends IProductInfo {
   id: string
   selectedSize?: Size
   isPending: boolean
-  onAddToCart: (id: string, size: Size) => void
+  onAddToCart: (productProps: IProductProps, size: Size) => void
   onRemoveFromCart: (id: string) => void
 }
 
@@ -51,14 +55,64 @@ const ProductCard = ({
   ...props
 }: IProductCard & Partial<StackProps>) => {
   const isDesktop = useDesktopCheck(),
-    [openedDrawer, setOpenedDrawer] = useState(false),
-    artwork = <Image src={imgSrc} width={1000} height={1000} alt="artwork preview" />
+    artwork = <Image src={imgSrc} width={1000} height={1000} alt="artwork preview" />,
+    openDrawer = useCart((cart) => cart.controls.openAddDrawer)
+
+  let actions = null
+
+  if (Product.isAvailable(status)) {
+    actions = isDesktop ? (
+      <Stack className={styles.overlay}>
+        <Group>
+          <FontAwesomeIcon icon={faSquarePlus} /> <p>Quick Add</p>
+        </Group>
+        <Chips<Size>
+          pending={isPending}
+          items={sizes}
+          selected={selectedSize}
+          onSelected={(size) =>
+            onAddToCart(
+              {
+                name,
+                style,
+                status,
+                id,
+                colorScheme,
+                price,
+                currency,
+              },
+              size
+            )
+          }
+          onUnselected={() => onRemoveFromCart(id)}
+        />
+      </Stack>
+    ) : (
+      <Stack className={styles.mobileActions}>
+        <CornerZoom zoomTitle={<ArtworkModalTitle title={name} status={status} />}>
+          {artwork}
+        </CornerZoom>
+        <ActionButton
+          label={
+            <Image
+              src="/assets/icons/add-to-bag.svg"
+              width={20}
+              height={20}
+              alt="add to bag icon"
+            />
+          }
+          onClick={() => openDrawer(id)}
+          modifier="circularIconBtn"
+        />
+      </Stack>
+    )
+  }
 
   return (
     <Stack className={styles.productCard} {...props}>
       <FluidContainer className={styles.preview}>
         {isDesktop && (
-          <CornerZoom isAbsolute zoomTitle={name}>
+          <CornerZoom isAbsolute zoomTitle={<ArtworkModalTitle title={name} status={status} />}>
             {artwork}
           </CornerZoom>
         )}
@@ -71,49 +125,7 @@ const ProductCard = ({
             height={1000}
           />
         </NavLink>
-        {isDesktop ? (
-          <Stack className={styles.overlay}>
-            <Group>
-              <FontAwesomeIcon icon={faSquarePlus} /> <p>Quick Add</p>
-            </Group>
-            <Chips<Size>
-              pending={isPending}
-              items={sizes}
-              selected={selectedSize}
-              onSelected={(size) => onAddToCart(id, size)}
-              onUnselected={() => onRemoveFromCart(id)}
-            />
-          </Stack>
-        ) : (
-          <Stack className={styles.mobileActions}>
-            <CornerZoom zoomTitle={name}>{artwork}</CornerZoom>
-            <ActionButton
-              label={
-                <Image
-                  src="/assets/icons/add-to-bag.svg"
-                  width={20}
-                  height={20}
-                  alt="add to bag icon"
-                />
-              }
-              onClick={() => setOpenedDrawer(true)}
-              modifier="circularIconBtn"
-            />
-            <ProductAddDrawer
-              id={id}
-              to={url}
-              name={name}
-              price={price}
-              imgSrc={imgSrc}
-              colorScheme={colorScheme}
-              style={style}
-              currency={currency}
-              status={status}
-              open={openedDrawer}
-              onClose={() => setOpenedDrawer(false)}
-            />
-          </Stack>
-        )}
+        {actions}
       </FluidContainer>
       <NavLink href={url} data-naked="true">
         <ProductInfo

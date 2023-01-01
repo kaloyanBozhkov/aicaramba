@@ -1,13 +1,18 @@
-import { trcpCaller } from 'server/routers/_app'
+import { useEffect } from 'react'
+
+import { trcpCaller } from 'server/trpc/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
+
+import { useProducts } from 'stores/Products.store'
 
 import { IProductProps } from 'classes/Product'
 
 import AboutUs from 'components/organisms/AboutUs/AboutUs.organism'
 import Banner from 'components/organisms/Banner/Banner.organism'
 import InfoSectionWithCanvas from 'components/organisms/InfoSectionWithCanvas/InfoSectionWithCanvas.organism'
+import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 import ProductCollection from 'components/organisms/ProductCollection/ProductCollection.organism'
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
@@ -21,6 +26,13 @@ export default function Home({
   fireDeals,
   goneDeals,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const addP = useProducts((s) => s.addP)
+
+  useEffect(
+    () => addP([...freshDeals, ...fireDeals, ...soldDeals, ...goneDeals]),
+    [addP, soldDeals, freshDeals, fireDeals, goneDeals]
+  )
+
   return (
     <>
       <Head>
@@ -36,7 +48,7 @@ export default function Home({
           imgSrc="/assets/images/artist-cat.png"
           zoomTitle="Robot cat proudly demonstrating its freshly finished painting, digital art"
           title="Fresh Artworks"
-          icon={ProductStatus.NEW}
+          status={ProductStatus.NEW}
           text={
             <>
               Our AI factory has <i>just</i> crafted these beauties. They will be around for 7 days
@@ -56,7 +68,7 @@ export default function Home({
           imgSrc="/assets/images/fire-cat.png"
           zoomTitle="a cat fighting a fierce bear in the middle of a forest on fire, cyberpunk digital art"
           title="Fire Artworks"
-          icon={ProductStatus.FIRE}
+          status={ProductStatus.FIRE}
           text="Going fast! Either the price will have dropped so much that somebody calls
                 dibs on them or they will dissappear forever if unclaimed :("
         />
@@ -72,7 +84,7 @@ export default function Home({
           imgSrc="/assets/images/sold.png"
           zoomTitle="A unicorn driving a Lamborghini in outer space with the moon visible, digital art"
           title="Sold Artworks"
-          icon={ProductStatus.SOLD}
+          status={ProductStatus.SOLD}
           text="These precious beauties have been claimed! The owner has an original and one
                 of a kind high-quality T-Shirt with the artowrk print, as well as the rights
                 to re-sell T-Shirts with prints of the image through our platform."
@@ -89,7 +101,7 @@ export default function Home({
           imgSrc="/assets/images/missed-art.png"
           zoomTitle="A black hole sucking in a space nebula and a shirt, digital art"
           title="Missed Artworks"
-          icon={ProductStatus.GONE}
+          status={ProductStatus.GONE}
           text={
             <>
               These are gone forever. They disappeared because nobody claimed them in the 7 days
@@ -107,6 +119,7 @@ export default function Home({
           />
         </CappedContainerTemplate>
       </PageStack>
+      <ProductAddDrawer />
     </>
   )
 }
