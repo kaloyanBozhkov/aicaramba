@@ -2,6 +2,10 @@ import Image from 'next/image'
 
 import { useCart } from 'stores/Cart.store'
 
+import CounterIcon from 'components/atoms/CounterIcon/CounterIcon.atom'
+
+import { Container } from '@mantine/core'
+
 import styles from './styles.module.scss'
 
 interface ICartButton {
@@ -9,17 +13,22 @@ interface ICartButton {
 }
 
 const CartButton = ({ iconSize }: ICartButton) => {
-  const onOpenCart = useCart((state) => state.controls.open)
+  const onOpenCart = useCart((state) => state.controls.open),
+    cartProductsCount = useCart(
+      (cart) => Object.keys(cart.products).filter((id) => !cart.pending.includes(id)).length
+    )
 
   return (
-    <Image
-      src="/assets/icons/shopping-basket.svg"
-      alt="shopping-basket icon"
-      width={iconSize}
-      height={iconSize}
-      className={styles.icon}
-      onClick={onOpenCart}
-    />
+    <Container onClick={onOpenCart} className={styles.wrapper}>
+      <CounterIcon withoutZero count={cartProductsCount}>
+        <Image
+          src="/assets/icons/shopping-basket.svg"
+          alt="shopping-basket icon"
+          width={iconSize}
+          height={iconSize}
+        />
+      </CounterIcon>
+    </Container>
   )
 }
 

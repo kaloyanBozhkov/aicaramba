@@ -4,6 +4,8 @@ import { useCart } from 'stores/Cart.store'
 import { useProducts } from 'stores/Products.store'
 import { useStyles } from 'stores/Styles.store'
 
+import useOnLocationChange from 'hooks/location/useOnLocationChange'
+
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 
 import ProductColorSelector from 'components/molecules/ProductColorSelector/ProductColorSelector.molecule'
@@ -38,12 +40,10 @@ const ProductAddDrawer = () => {
   }, [inCart])
 
   // hide header if showing
-  useEffect(
-    () => () => {
-      toggleHeader(!isOpen)
-    },
-    [isOpen, toggleHeader]
-  )
+  useEffect(() => {
+    toggleHeader(isOpen)
+    return () => toggleHeader(isOpen)
+  }, [isOpen, toggleHeader])
 
   // wait for transition to end before resetting
   useEffect(() => {
@@ -58,6 +58,10 @@ const ProductAddDrawer = () => {
       return () => clearTimeout(id)
     }
   }, [closeAnim, cartControls, toggleHeader])
+
+  useOnLocationChange({
+    onChange: () => cartControls.closeAddDrawer(),
+  })
 
   let content = null
 

@@ -11,6 +11,9 @@ const COLORS = {
   'tertiary-front': '#fffcf9',
   'tertiary-back': '#4b4b4b',
   'text-primary': '#121212',
+  'primary-background': 'linear-gradient(0deg, rgb(214 127 175) 0%, rgb(152 112 212) 100%)',
+  'primary-background-active': 'linear-gradient(0deg, rgb(183 105 148) 0%, rgb(141 100 202) 100%)',
+  'primary-background-color': 'rgb(214 127 175)',
   red: '#ef476f',
 }
 

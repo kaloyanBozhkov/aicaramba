@@ -2,6 +2,8 @@ import { ProductConfig, useCart } from 'stores/Cart.store'
 
 import Product from 'classes/Product'
 
+import useOnLocationChange from 'hooks/location/useOnLocationChange'
+
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 import Price from 'components/atoms/Price/Price.atom'
 
@@ -18,6 +20,10 @@ const Cart = () => {
   const cart = useCart(),
     productsArr = Object.values(cart.products),
     cartEmpty = productsArr.length === 0
+
+  useOnLocationChange({
+    onChange: () => cart.controls.close(),
+  })
 
   return (
     <Drawer

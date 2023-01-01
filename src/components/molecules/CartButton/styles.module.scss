@@ -1,4 +1,7 @@
-.icon {
+@import "scss/variables";
+
+.wrapper {
+  padding: $paddingUnit 0;
   transition: transform 200ms;
   cursor: pointer;
 

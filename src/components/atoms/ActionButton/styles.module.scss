@@ -6,8 +6,8 @@ button.actionButton {
     min-width: max-content;
     height: 4.6rem;
     width: auto;
-    background: rgb(214 127 175);
-    background: linear-gradient(0deg, rgb(214 127 175) 0%, rgb(152 112 212) 100%);
+    background: $primaryBackgroundColor;
+    background: $primaryBackground;
     color: $primaryBack;
     font-size: 1.8rem;
     border-radius: 30px;
@@ -21,7 +21,7 @@ button.actionButton {
     &:hover,
     &:focus {
       background: rgb(183 105 148);
-      background: linear-gradient(0deg, rgb(183 105 148) 0%, rgb(141 100 202) 100%);
+      background: $primaryBackgroundActive;
     }
   }
 

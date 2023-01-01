@@ -68,22 +68,20 @@ const Header = () => {
           <Space style={{ flex: '1' }} />
           <Group>
             {/* @TODO add search pop-up on click */}
-            <Link data-naked="true" href="/search">
+            <Link data-naked="true" href="/search" className={styles.icon}>
               <Image
                 src="/assets/icons/search.svg"
                 alt="search icon"
                 width={iconSize}
                 height={iconSize}
-                className={styles.icon}
               />
             </Link>
-            <Link data-naked="true" href="/account">
+            <Link data-naked="true" href="/account" className={styles.icon}>
               <Image
                 src="/assets/icons/user.svg"
                 alt="user icon"
                 width={iconSize}
                 height={iconSize}
-                className={styles.icon}
               />
             </Link>
             <CartButton iconSize={iconSize} />

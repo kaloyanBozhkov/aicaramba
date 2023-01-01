@@ -5,11 +5,13 @@ import Link from 'next/link'
 
 import mainNav from 'routing/navLinks/mainNav'
 
+import { useCart } from 'stores/Cart.store'
 import { useStyles } from 'stores/Styles.store'
 
 import useOnLocationChange from 'hooks/location/useOnLocationChange'
 import useVerticalScrollDirection from 'hooks/styles/useVerticalScrollDirection'
 
+import CounterIcon from 'components/atoms/CounterIcon/CounterIcon.atom'
 import Logo from 'components/atoms/Logo/Logo.atom'
 import CreatorSignature from 'components/atoms/Signature/CreatorSignature.atom'
 
@@ -37,8 +39,6 @@ const HeaderMobile = () => {
     scrollDirOverwritten = headerHidden ? 'hidden' : scrollDir,
     menuShowing = (menuOpened || !menuAnimationEnded) && !headerHidden
 
-  console.log(headerHidden)
-
   useOnLocationChange({ onChange: () => toggleMenuOpened(false) })
 
   return (
@@ -55,13 +55,12 @@ const HeaderMobile = () => {
           </Container>
           <Group className={styles.even}>
             {/* @TODO add search pop-up on click */}
-            <Link data-naked="true" href="/search">
+            <Link data-naked="true" href="/search" className={styles.icon}>
               <Image
                 src="/assets/icons/search.svg"
                 alt="search icon"
                 width={iconSize}
                 height={iconSize}
-                className={styles.icon}
               />
             </Link>
             <CartButton iconSize={iconSize} />

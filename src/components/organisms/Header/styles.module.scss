@@ -34,14 +34,6 @@
       display: none;
     }
 
-    .icon {
-      transition: transform 200ms;
-
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-
     > .wrapper {
       height: 100%;
       width: 100%;
@@ -302,5 +294,14 @@
         }
       }
     }
+  }
+}
+
+.icon {
+  transition: transform 200ms;
+  padding: $paddingUnit 0;
+
+  &:hover {
+    transform: scale(1.1);
   }
 }
