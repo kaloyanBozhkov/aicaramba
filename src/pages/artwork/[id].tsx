@@ -152,7 +152,7 @@ export default function Artwork({
                             return
                           }
 
-                          cartControls.add(product, size, color)
+                          cartControls.add(product.id, size, color)
                         }}
                         data-fixed-mobile="bottom"
                         data-fixed-tabletsmall="bottom"

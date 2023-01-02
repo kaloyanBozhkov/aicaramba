@@ -1,0 +1,6 @@
+.cardWrapper {
+  // hide price next to title when expanded
+  a ~ [data-price="true"] {
+    display: none;
+  }
+}

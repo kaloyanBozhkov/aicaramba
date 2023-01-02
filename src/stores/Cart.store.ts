@@ -1,29 +1,31 @@
 import create from 'zustand'
 
-import { IProductProps } from 'classes/Product'
+import type Product from 'classes/Product'
 
 import { Color, Size } from '@prisma/client'
 
-export interface ProductConfig extends IProductProps {
+type ProductId = Product['id']
+
+export interface ProductConfig {
   size: Size
   color: Color
 }
 
 type Cart = {
-  products: Record<IProductProps['id'], ProductConfig>
+  products: Record<ProductId, ProductConfig>
   pending: string[]
   opened: boolean
-  addDrawerProductId: null | IProductProps['id']
+  addDrawerProductId: null | ProductId
   controls: {
     open: () => void
     close: () => void
-    add: (productProps: IProductProps, size: Size, color?: Color) => void
+    add: (pId: ProductId, size: Size, color?: Color) => void
     remove: (pId: string) => void
     update: (
       pId: string,
       newConfig: { size: Size; color: Color } | { size: Size } | { color: Color }
     ) => void
-    openAddDrawer: (id: IProductProps['id']) => void
+    openAddDrawer: (id: ProductId) => void
     closeAddDrawer: () => void
   }
 }
@@ -52,26 +54,25 @@ export const useCart = create<Cart>((set) => ({
           opened: false,
         }
       }),
-    add: (productProps, size, color = Color.BLACK) => {
+    add: (pId, size, color = Color.BLACK) => {
       set((prev) => ({
         ...prev,
         products: {
           ...prev.products,
           // overwrites existing one in cart
-          [productProps.id]: {
-            ...productProps,
+          [pId]: {
             size,
             color,
           },
         },
-        pending: [...prev.pending, productProps.id],
+        pending: [...prev.pending, pId],
       }))
 
       // add availability check
       setTimeout(() => {
         set((prev) => ({
           ...prev,
-          pending: prev.pending.filter((id) => id !== productProps.id),
+          pending: prev.pending.filter((id) => id !== pId),
         }))
       }, 1000)
     },

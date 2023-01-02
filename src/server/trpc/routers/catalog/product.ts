@@ -13,7 +13,7 @@ const select = {
 export const catalogRouter = router({
   products: publicProcedure.query(({ ctx: { prisma } }) => {
     return {
-      freshDeals: prisma.product.findMany({
+      newDeals: prisma.product.findMany({
         where: {
           status: 'NEW',
         },

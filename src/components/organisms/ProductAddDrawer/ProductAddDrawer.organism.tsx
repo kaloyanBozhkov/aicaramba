@@ -118,18 +118,7 @@ const ProductAddDrawer = () => {
               setSizeSelectionOver(true)
             }}
             onSizeSelected={(size) => {
-              cartControls.add(
-                {
-                  id,
-                  name,
-                  style,
-                  status,
-                  colorScheme,
-                  price,
-                  currency,
-                },
-                size
-              )
+              cartControls.add(id, size)
               setAdded(true)
             }}
           />

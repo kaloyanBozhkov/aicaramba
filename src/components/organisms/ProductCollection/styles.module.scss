@@ -29,4 +29,12 @@
       font-size: 1.6rem;
     }
   }
+
+  .cardWrapper {
+    a:hover {
+      h2 {
+        opacity: 70%;
+      }
+    }
+  }
 }

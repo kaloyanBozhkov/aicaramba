@@ -34,7 +34,11 @@ const ProductPreview = ({
         <Grid.Col span={2} xs={1} pos="relative">
           <Box pos="relative">
             <CornerZoom isAbsolute zoomTitle="Preview: Black T-Shirt">
-              <ShirtPreview imgSrc={imgSrc} shirtColor="black" style={{ width: '375px' }} />
+              <ShirtPreview
+                imgSrc={imgSrc}
+                shirtColor="black"
+                style={{ width: '375px', maxWidth: '80vw' }}
+              />
             </CornerZoom>
             <ShirtPreview imgSrc={imgSrc} shirtColor="black" style={{ width: '100%' }} />
           </Box>
@@ -42,7 +46,11 @@ const ProductPreview = ({
         <Grid.Col span={2} xs={1}>
           <Box pos="relative">
             <CornerZoom isAbsolute zoomTitle="Preview: White T-Shirt">
-              <ShirtPreview imgSrc={imgSrc} shirtColor="white" style={{ width: '375px' }} />
+              <ShirtPreview
+                imgSrc={imgSrc}
+                shirtColor="white"
+                style={{ width: '375px', maxWidth: '80vw' }}
+              />
             </CornerZoom>
             <ShirtPreview imgSrc={imgSrc} shirtColor="white" style={{ width: '100%' }} />
           </Box>

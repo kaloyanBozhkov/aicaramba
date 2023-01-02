@@ -16,14 +16,18 @@
     text-transform: capitalize;
   }
 
+  .priceSecondary {
+    width: 100%;
+  }
+
   p {
     font-size: 1.6rem;
     font-weight: 700;
     white-space: nowrap;
-    text-align: start;
+    text-align: left;
 
     @include mediaQueryDevice(desktop) {
-      text-align: end;
+      text-align: right;
     }
   }
 
@@ -43,16 +47,6 @@
         font-weight: 300;
       }
     }
-  }
-
-  .price {
-    gap: $tapUnit;
-    line-height: 1.6rem;
-    font-weight: 600;
-    height: 100%;
-    justify-content: flex-end;
-    display: flex;
-    flex-direction: column;
   }
 
   .status {

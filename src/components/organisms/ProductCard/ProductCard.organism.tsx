@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import Image from 'next/image'
 import NavLink from 'next/link'
 
@@ -34,8 +32,8 @@ interface IProductCard extends IProductInfo {
   id: string
   selectedSize?: Size
   isPending: boolean
-  onAddToCart: (productProps: IProductProps, size: Size) => void
-  onRemoveFromCart: (id: string) => void
+  onAddToCart: (pId: Product['id'], size: Size) => void
+  onRemoveFromCart: (id: Product['id']) => void
 }
 
 const ProductCard = ({
@@ -70,20 +68,7 @@ const ProductCard = ({
           pending={isPending}
           items={sizes}
           selected={selectedSize}
-          onSelected={(size) =>
-            onAddToCart(
-              {
-                name,
-                style,
-                status,
-                id,
-                colorScheme,
-                price,
-                currency,
-              },
-              size
-            )
-          }
+          onSelected={(size) => onAddToCart(id, size)}
           onUnselected={() => onRemoveFromCart(id)}
         />
       </Stack>

@@ -1,13 +1,12 @@
-import { useEffect } from 'react'
-
 import { trcpCaller } from 'server/trpc/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
-import { useProducts } from 'stores/Products.store'
+import { type IProductProps } from 'classes/Product'
 
-import { IProductProps } from 'classes/Product'
+import useCatalogProducts from 'hooks/data/selectors/useCatalogProducts'
+import useSetupProducts from 'hooks/data/useSetupProducts'
 
 import AboutUs from 'components/organisms/AboutUs/AboutUs.organism'
 import Banner from 'components/organisms/Banner/Banner.organism'
@@ -20,18 +19,10 @@ import PageStack from 'components/templates/PageStack/PageStack.template'
 
 import { ProductStatus } from '@prisma/client'
 
-export default function Home({
-  soldDeals,
-  freshDeals,
-  fireDeals,
-  goneDeals,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const addP = useProducts((s) => s.addP)
+export default function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  useSetupProducts(products)
 
-  useEffect(
-    () => addP([...freshDeals, ...fireDeals, ...soldDeals, ...goneDeals]),
-    [addP, soldDeals, freshDeals, fireDeals, goneDeals]
-  )
+  const { fresh, sold, gone, fire } = useCatalogProducts()
 
   return (
     <>
@@ -40,7 +31,6 @@ export default function Home({
         <meta name="description" content="Unique AI Generated T-Shirts" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <PageStack>
         <Banner />
         <AboutUs />
@@ -61,7 +51,7 @@ export default function Home({
             title="Fresh Artworks"
             subtitle="Fresh out of the AI factory"
             goTo="/artworks/new"
-            products={freshDeals}
+            products={fresh}
           />
         </CappedContainerTemplate>
         <InfoSectionWithCanvas
@@ -77,7 +67,7 @@ export default function Home({
             title="Fire Artworks"
             subtitle="AAH!! Time is running out!"
             goTo="/artworks/going"
-            products={fireDeals}
+            products={fire}
           />
         </CappedContainerTemplate>
         <InfoSectionWithCanvas
@@ -94,7 +84,7 @@ export default function Home({
             title="Sold Artworks"
             subtitle="These have been claimed by someone"
             goTo="/artworks/sold"
-            products={soldDeals}
+            products={sold}
           />
         </CappedContainerTemplate>
         <InfoSectionWithCanvas
@@ -115,7 +105,7 @@ export default function Home({
             title="Missed Artworks"
             subtitle="Ai Caramba! These are forever gone :("
             goTo="/artworks/missed"
-            products={goneDeals}
+            products={gone}
           />
         </CappedContainerTemplate>
       </PageStack>
@@ -125,22 +115,16 @@ export default function Home({
 }
 
 type HomeProps = {
-  fireDeals: IProductProps[]
-  freshDeals: IProductProps[]
-  goneDeals: IProductProps[]
-  soldDeals: IProductProps[]
+  products: IProductProps[]
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   const caller = await trcpCaller(),
-    { soldDeals, freshDeals, goneDeals, fireDeals } = await caller.home.products()
+    { soldDeals, newDeals, goneDeals, fireDeals } = await caller.home.products()
 
   return {
     props: {
-      soldDeals: await soldDeals,
-      freshDeals: await freshDeals,
-      goneDeals: await goneDeals,
-      fireDeals: await fireDeals,
+      products: [...soldDeals, ...newDeals, ...goneDeals, ...fireDeals],
     },
   }
 }

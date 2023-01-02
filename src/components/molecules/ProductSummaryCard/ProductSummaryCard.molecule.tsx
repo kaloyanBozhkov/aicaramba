@@ -13,12 +13,19 @@ import ProductInfo from 'components/molecules/ProductInfo/ProductInfo.molecule'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Group, Stack } from '@mantine/core'
+import type { Currency, ProductStatus } from '@prisma/client'
 
 import { extendClassNameProp } from 'utils/utils.common'
 
 import styles from './styles.module.scss'
 
-type IProductSummaryCard = Omit<IProductProps, 'id'> & {
+type IProductSummaryCardProps = {
+  style: string
+  colorScheme: string
+  name: string
+  price: number
+  currency: Currency
+  status: ProductStatus
   to: string
   imgSrc: string
   className?: string
@@ -40,7 +47,7 @@ const ProductSummaryCard = ({
   modifier = 'default',
   children,
   onToggleBrief,
-}: IProductSummaryCard) => {
+}: IProductSummaryCardProps) => {
   const [showingBrief, setShowingBrief] = useState(modifier === 'brief'),
     toggleBtn = (
       <button
@@ -78,13 +85,13 @@ const ProductSummaryCard = ({
             currency={currency}
             status={status}
             name={name}
-            withNameLink={to}
+            titleLink={to}
           />
           {modifier === 'brief' && toggleBtn}
         </>
       ) : (
         <Stack className={styles.briefWrapper} spacing="xs" justify="space-between">
-          <Group noWrap className={styles.briefSummary} spacing="xs">
+          <Group noWrap className={styles.briefSummary} spacing="xs" align="flex-start">
             <Group noWrap className={styles.heading} spacing="xs" align="center" position="left">
               <Status icon={status} />
               <Link href={to} data-naked="true">

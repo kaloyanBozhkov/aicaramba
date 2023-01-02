@@ -20,9 +20,13 @@
   }
 
   .preview {
+    overflow: hidden;
+
     .productImage {
       width: 100%;
       height: auto;
+      transition: all 1s;
+      transform: scale(1.05);
     }
 
     .mobileActions {
@@ -71,6 +75,14 @@
     &:hover {
       .overlay {
         opacity: 100%;
+      }
+    }
+  }
+
+  &:hover {
+    .preview {
+      .productImage {
+        transform: scale(1);
       }
     }
   }

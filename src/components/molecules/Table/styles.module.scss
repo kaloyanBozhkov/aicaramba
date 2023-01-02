@@ -1,0 +1,41 @@
+@import "scss/breakpoints";
+@import "scss/variables";
+@import "scss/mixins";
+
+.tableWrapper {
+  overflow: auto;
+  width: 100%;
+  white-space: nowrap;
+  @include thinScrollBar();
+
+  @include mediaQuery(mobile) {
+    table {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        td {
+          display: flex;
+          flex-direction: column;
+          border: none;
+          padding: 0;
+          padding: $baseUnit;
+
+          &::before {
+            content: attr(data-title);
+            font-weight: 300;
+          }
+        }
+
+        tr {
+          &:nth-child(odd) {
+            background-color: $secondaryFront;
+          }
+
+          border-bottom: $marginUnit solid transparent;
+        }
+      }
+    }
+  }
+}

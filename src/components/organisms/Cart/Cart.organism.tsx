@@ -1,4 +1,9 @@
-import { ProductConfig, useCart } from 'stores/Cart.store'
+import { useCallback } from 'react'
+
+import { useRouter } from 'next/router'
+
+import { useCart } from 'stores/Cart.store'
+import { useProducts } from 'stores/Products.store'
 
 import Product from 'classes/Product'
 
@@ -7,19 +12,31 @@ import useOnLocationChange from 'hooks/location/useOnLocationChange'
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 import Price from 'components/atoms/Price/Price.atom'
 
-import ProductSummaryCard from 'components/molecules/ProductSummaryCard/ProductSummaryCard.molecule'
-
-import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { Drawer, Group, Stack, Text } from '@mantine/core'
-import { useToggle } from '@mantine/hooks'
-import { Currency } from '@prisma/client'
+
+import CartProductCard from '../CartProductCard/CartProductCard.organism'
 
 import styles from './styles.module.scss'
 
 const Cart = () => {
   const cart = useCart(),
-    productsArr = Object.values(cart.products),
-    cartEmpty = productsArr.length === 0
+    productsInCart = useProducts(
+      useCallback(
+        (state) => {
+          const pIds = Object.keys(cart.products),
+            products = Object.values(state.products)
+
+          // select products that are in cart
+          return products.reduce(
+            (acc, p) => [...acc, ...(pIds.includes(p.id) ? [p] : [])],
+            [] as Product[]
+          )
+        },
+        [cart.products]
+      )
+    ),
+    cartEmpty = productsInCart.length === 0,
+    { push } = useRouter()
 
   useOnLocationChange({
     onChange: () => cart.controls.close(),
@@ -49,8 +66,20 @@ const Cart = () => {
         {cartEmpty ? (
           <h3>YOUR BAG IS CURRENTLY EMPTY.</h3>
         ) : (
-          productsArr.map((p) => (
-            <ProductCartCard key={p.id} p={p} onRemove={() => cart.controls.remove(p.id)} />
+          productsInCart.map((p) => (
+            <CartProductCard
+              key={p.id}
+              style={p.style}
+              colorScheme={p.colorScheme}
+              name={p.name}
+              price={p.price}
+              currency={p.currency}
+              status={p.status}
+              to={p.url}
+              imgSrc={p.imgSrc}
+              {...cart.products[p.id]}
+              onRemove={() => cart.controls.remove(p.id)}
+            />
           ))
         )}
       </Stack>
@@ -59,13 +88,18 @@ const Cart = () => {
           <Group align="center" position="apart" className={styles.cartTotal}>
             <p>Total:</p>
             <Price
-              price={productsArr.reduce((acc, p) => acc + p.price, 0)}
-              currency={productsArr[0].currency}
+              price={productsInCart.reduce((acc, p) => acc + p.price, 0)}
+              currency={productsInCart[0].currency}
               className={styles.price}
             />
           </Group>
           <ActionButton withShadow label="CHECKOUT" modifier="primary" />
-          <ActionButton withShadow label="YOUR BAG" modifier="secondary" />
+          <ActionButton
+            withShadow
+            label="YOUR BAG"
+            modifier="secondary"
+            onClick={() => push('/bag')}
+          />
         </Stack>
       )}
     </Drawer>
@@ -73,74 +107,3 @@ const Cart = () => {
 }
 
 export default Cart
-
-// @TODO move to own molecules if these are ever needed elsewhere
-const ProductActions = ({
-    size,
-    color,
-    currency,
-    onRemove,
-    price,
-    buttonPos,
-  }: {
-    size: string
-    color: string
-    onRemove: () => void
-    currency: Currency
-    price: number
-    buttonPos: 'bottom' | 'topRight'
-  }) => {
-    const Wrapper = buttonPos === 'bottom' ? Stack : Group
-
-    return (
-      <Wrapper position="apart" align={buttonPos === 'bottom' ? 'flex-start' : 'flex-end'}>
-        <Stack className={styles.configPreview} spacing={0}>
-          <p>
-            SIZE: <b>{size}</b>
-          </p>
-          <p>
-            COLOR: <b>{color}</b>
-          </p>
-          <Group spacing={0}>
-            <p>CURRENT PRICE:</p>
-            <Price price={price} currency={currency} className={styles.price} />
-          </Group>
-        </Stack>
-        <ActionButton label="Remove" rightIcon={faClose} modifier="subtle" onClick={onRemove} />
-      </Wrapper>
-    )
-  },
-  ProductCartCard = ({ p, onRemove }: { p: ProductConfig; onRemove: () => void }) => {
-    const [showMore, setShowMore] = useToggle([false, true])
-
-    return (
-      <Stack spacing="xs" pos="relative">
-        <ProductSummaryCard
-          to={Product.getProductPageURL(p.id)}
-          imgSrc={Product.getProductImageURL(p.id)}
-          modifier="brief"
-          onToggleBrief={() => setShowMore((prev) => !prev)}
-          {...p}
-        >
-          <ProductActions
-            size={p.size}
-            color={p.color}
-            price={p.price}
-            currency={p.currency}
-            onRemove={onRemove}
-            buttonPos="bottom"
-          />
-        </ProductSummaryCard>
-        {showMore && (
-          <ProductActions
-            size={p.size}
-            color={p.color}
-            price={p.price}
-            currency={p.currency}
-            onRemove={onRemove}
-            buttonPos="topRight"
-          />
-        )}
-      </Stack>
-    )
-  }

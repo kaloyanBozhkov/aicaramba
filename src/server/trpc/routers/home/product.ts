@@ -11,9 +11,9 @@ const select = {
 }
 
 export const homeRouter = router({
-  products: publicProcedure.query(({ ctx: { prisma } }) => {
+  products: publicProcedure.query(async ({ ctx: { prisma } }) => {
     return {
-      freshDeals: prisma.product.findMany({
+      newDeals: await prisma.product.findMany({
         where: {
           status: 'NEW',
         },
@@ -25,7 +25,7 @@ export const homeRouter = router({
           createdAt: 'asc',
         },
       }),
-      fireDeals: prisma.product.findMany({
+      fireDeals: await prisma.product.findMany({
         where: {
           status: 'FIRE',
         },
@@ -37,7 +37,7 @@ export const homeRouter = router({
           updatedAt: 'asc',
         },
       }),
-      soldDeals: prisma.product.findMany({
+      soldDeals: await prisma.product.findMany({
         where: {
           status: 'SOLD',
         },
@@ -49,7 +49,7 @@ export const homeRouter = router({
           updatedAt: 'asc',
         },
       }),
-      goneDeals: prisma.product.findMany({
+      goneDeals: await prisma.product.findMany({
         where: {
           status: 'GONE',
         },

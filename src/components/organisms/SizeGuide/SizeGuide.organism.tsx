@@ -1,4 +1,6 @@
-import { Group, Stack, Switch, Table } from '@mantine/core'
+import Table from 'components/molecules/Table/Table.molecule'
+
+import { Group, Stack, Switch } from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
 
 import styles from './styles.module.scss'
@@ -20,28 +22,16 @@ const SizeGuide = () => {
           onChange={(e) => setUnit(e.currentTarget.checked ? 'cm' : 'in')}
         />
       </Group>
-      <div className={styles.tableWrapper}>
-        <Table>
-          <thead>
-            <tr>
-              <th>Size</th>
-              <th>Width</th>
-              <th>Height</th>
-              <th>Sleeve Length</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shirtSizingsCM.map(({ size, width, height, sleeveLength }) => (
-              <tr key={size}>
-                <td data-title="Size">{size}</td>
-                <td data-title="Width">{formatUnit(unit, width)}</td>
-                <td data-title="Height">{formatUnit(unit, height)}</td>
-                <td data-title="Sleeve Length">{formatUnit(unit, sleeveLength)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+      <Table header={['Size', 'Width', 'Height', 'Sleeve Length']}>
+        {shirtSizingsCM.map(({ size, width, height, sleeveLength }) => (
+          <tr key={size}>
+            <td data-title="Size">{size}</td>
+            <td data-title="Width">{formatUnit(unit, width)}</td>
+            <td data-title="Height">{formatUnit(unit, height)}</td>
+            <td data-title="Sleeve Length">{formatUnit(unit, sleeveLength)}</td>
+          </tr>
+        ))}
+      </Table>
     </Stack>
   )
 }

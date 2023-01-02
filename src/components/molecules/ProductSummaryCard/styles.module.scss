@@ -3,6 +3,20 @@
 .productSummaryCard {
   align-items: stretch;
 
+  > a {
+    overflow: hidden;
+
+    img {
+      transition: all 1s;
+    }
+  }
+
+  &:hover {
+    > a img {
+      transform: scale(1.05);
+    }
+  }
+
   .preview {
     width: 14rem;
     height: 14rem;
@@ -49,11 +63,6 @@
         overflow: hidden;
         flex: 1;
 
-        > div:first-child {
-          position: relative;
-          top: -2px;
-        }
-
         a {
           overflow: hidden;
 
@@ -85,7 +94,7 @@
 
   &[data-mode="less"] {
     position: absolute;
-    top: $baseUnit / 2;
+    top: 0;
     right: 0;
   }
 

@@ -20,15 +20,9 @@ export const searchRouter = router({
       })
     )
     .query(async ({ ctx: { prisma }, input: { contains } }) => {
-      if (!contains)
-        return {
-          soldDeals: [],
-          fireDeals: [],
-          goneDeals: [],
-          freshDeals: [],
-        }
+      if (!contains) return []
 
-      const freshDeals = await prisma.product.findMany({
+      const newDeals = await prisma.product.findMany({
           where: {
             status: 'NEW',
             name: {
@@ -89,11 +83,6 @@ export const searchRouter = router({
           },
         })
 
-      return {
-        freshDeals: freshDeals.length ? freshDeals : undefined,
-        fireDeals: fireDeals.length ? fireDeals : undefined,
-        soldDeals: soldDeals.length ? soldDeals : undefined,
-        goneDeals: goneDeals.length ? goneDeals : undefined,
-      }
+      return [...soldDeals, ...newDeals, ...goneDeals, ...fireDeals]
     }),
 })

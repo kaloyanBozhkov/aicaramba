@@ -1,0 +1,14 @@
+.configPreview {
+  p {
+    font-size: 1.3rem;
+    padding: 0;
+  }
+
+  .price {
+    font-weight: bold;
+
+    &::before {
+      content: "\00a0";
+    }
+  }
+}

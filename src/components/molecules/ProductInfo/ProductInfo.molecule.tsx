@@ -22,7 +22,7 @@ interface IProductInfoProps extends IProductInfo {
   textVariant: 'primary' | 'secondary'
   layoutVariant: 'primary' | 'secondary' | 'tertiary'
   withStatusLink?: boolean
-  withNameLink?: string
+  titleLink?: string
 }
 
 const ProductInfo = ({
@@ -36,11 +36,17 @@ const ProductInfo = ({
   textVariant = 'primary',
   layoutVariant = 'primary',
   withStatusLink = false,
-  withNameLink,
+  titleLink,
 }: IProductInfoProps) => {
   const isSecondary = layoutVariant === 'secondary',
     statusContent = <Status className={styles.status} status={status} />,
-    priceComponent = <Price price={price} currency={currency} />,
+    priceComponent = (
+      <Price
+        price={price}
+        currency={currency}
+        className={!isSecondary ? undefined : styles.priceSecondary}
+      />
+    ),
     title = (
       <h2 data-uppercase={uppercase} data-variant={textVariant} data-with-quotes="true">
         {name}
@@ -60,8 +66,8 @@ const ProductInfo = ({
       </Grid.Col>
       <Grid.Col span={isSecondary ? 2 : 1} orderLg={3} className={styles.title}>
         <Group position="apart" noWrap align="flex-start">
-          {withNameLink ? (
-            <Link href={withNameLink} data-naked="true">
+          {titleLink ? (
+            <Link href={titleLink} data-naked="true">
               {title}
             </Link>
           ) : (

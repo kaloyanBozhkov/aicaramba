@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { trcpCaller } from 'server/trpc/routers/_app'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
-import { useProducts } from 'stores/Products.store'
-
 import { IProductProps } from 'classes/Product'
+
+import useCatalogProducts from 'hooks/data/selectors/useCatalogProducts'
+import useSetupProducts from 'hooks/data/useSetupProducts'
 
 import CatalogBanner from 'components/organisms/CatalogBanner/CatalogBanner.organism'
 import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
@@ -17,17 +18,11 @@ import CappedContainerTemplate from 'components/templates/CappedContainer/Capped
 import PageStack from 'components/templates/PageStack/PageStack.template'
 
 export default function Catalogue({
-  freshDeals,
-  goneDeals,
-  fireDeals,
-  soldDeals,
+  products,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const addP = useProducts((s) => s.addP)
+  useSetupProducts(products)
 
-  useEffect(
-    () => addP([...freshDeals, ...fireDeals, ...soldDeals, ...goneDeals]),
-    [addP, soldDeals, freshDeals, fireDeals, goneDeals]
-  )
+  const { fresh, sold, gone, fire } = useCatalogProducts()
 
   return (
     <>
@@ -46,25 +41,25 @@ export default function Catalogue({
             title="Fresh Artworks"
             subtitle="Fresh out of the AI factory 🎉"
             goTo="/artworks/new"
-            products={freshDeals}
+            products={fresh}
           />
           <ProductCollection
             title="Fire Artworks"
             subtitle="AAH!! Time is running out! 🔥"
             goTo="/artworks/going"
-            products={fireDeals}
+            products={fire}
           />
           <ProductCollection
             title="Missed Artworks"
             subtitle="Someone already claimed these 😎"
             goTo="/artworks/sold"
-            products={soldDeals}
+            products={sold}
           />
           <ProductCollection
             title="Missed Artworks"
             subtitle="Ai Caramba! These are forever gone 💀"
             goTo="/artworks/missed"
-            products={goneDeals}
+            products={gone}
           />
         </CappedContainerTemplate>
       </PageStack>
@@ -74,22 +69,16 @@ export default function Catalogue({
 }
 
 type CatalogProps = {
-  fireDeals: IProductProps[]
-  freshDeals: IProductProps[]
-  goneDeals: IProductProps[]
-  soldDeals: IProductProps[]
+  products: IProductProps[]
 }
 
 export const getServerSideProps: GetServerSideProps<CatalogProps> = async () => {
   const caller = await trcpCaller(),
-    { soldDeals, freshDeals, goneDeals, fireDeals } = await caller.home.products()
+    { soldDeals, newDeals, goneDeals, fireDeals } = await caller.home.products()
 
   return {
     props: {
-      soldDeals: await soldDeals,
-      freshDeals: await freshDeals,
-      goneDeals: await goneDeals,
-      fireDeals: await fireDeals,
+      products: [...soldDeals, ...newDeals, ...goneDeals, ...fireDeals],
     },
   }
 }

@@ -1,10 +1,10 @@
-import { ReactNode, useMemo } from 'react'
+import { ReactNode } from 'react'
 
 import NavLink from 'next/link'
 
 import { useCart } from 'stores/Cart.store'
 
-import Product, { IProductProps } from 'classes/Product'
+import type Product from 'classes/Product'
 
 import ProductCard from 'components/organisms/ProductCard/ProductCard.organism'
 
@@ -20,13 +20,12 @@ const ProductCollection = ({
   subtitle,
   goTo,
 }: {
-  products: IProductProps[]
+  products: Product[]
   title: string
   subtitle?: string | ReactNode
   goTo?: string
 }) => {
-  const p = useMemo(() => products.map((p) => new Product(p)), [products]),
-    { add, remove } = useCart((cart) => cart.controls),
+  const { add, remove } = useCart((cart) => cart.controls),
     cartPending = useCart((cart) => cart.pending),
     cartProducts = useCart((cart) => cart.products)
 
@@ -44,8 +43,8 @@ const ProductCollection = ({
           </NavLink>
         )}
       </Group>
-      <Grid columns={12} gutter="md">
-        {p.map((product, idx) => {
+      <Grid columns={12} gutter="md" className={styles.cardWrapper}>
+        {products.map((product, idx) => {
           const { imgSrc, name, id, url, price, currency, colorScheme, style, status } = product
           return (
             <Grid.Col key={product.id + idx} xs={6} sm={6} md={4} lg={3} xl={3}>
