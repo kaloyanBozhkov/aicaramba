@@ -21,6 +21,15 @@ export const SIZES = {
   'max-window-width': '1200px',
 }
 
+// same as brekapoints.scss
+export const breakpoints = {
+  xs: 599,
+  sm: 600,
+  md: 900,
+  lg: 1199,
+  xl: 1200,
+}
+
 const defaultTheme = {
   ...COLORS,
   ...SIZES,

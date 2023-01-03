@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useCart } from 'stores/Cart.store'
@@ -35,8 +36,7 @@ const Cart = () => {
         [cart.products]
       )
     ),
-    cartEmpty = productsInCart.length === 0,
-    { push } = useRouter()
+    cartEmpty = productsInCart.length === 0
 
   useOnLocationChange({
     onChange: () => cart.controls.close(),
@@ -94,12 +94,9 @@ const Cart = () => {
             />
           </Group>
           <ActionButton withShadow label="CHECKOUT" modifier="primary" />
-          <ActionButton
-            withShadow
-            label="YOUR BAG"
-            modifier="secondary"
-            onClick={() => push('/bag')}
-          />
+          <Link href="/bag" data-naked="true">
+            <ActionButton withShadow label="YOUR BAG" modifier="secondary" />
+          </Link>
         </Stack>
       )}
     </Drawer>

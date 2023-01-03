@@ -6,8 +6,8 @@ import { trpcNext } from 'server/trpc/utils/trpcNext'
 import type { AppProps } from 'next/app'
 import { GlobalStyles } from 'scss/variables'
 
-import { useCart } from 'stores/Cart.store'
 import { useModal } from 'stores/Modal.store'
+import { breakpoints } from 'stores/Styles.store'
 
 import useMobileCheck from 'hooks/styles/useMobileCheck'
 import useTabletCheck from 'hooks/styles/useTabletCheck'
@@ -17,7 +17,6 @@ import Cart from 'components/organisms/Cart/Cart.organism'
 import Footer from 'components/organisms/Footer/Footer.organism'
 import HeaderMobile from 'components/organisms/Header/Header.mobile.organism'
 import Header from 'components/organisms/Header/Header.organism'
-import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
 
 import MainTemplate from 'components/templates/Main/Main.template'
 
@@ -53,7 +52,13 @@ const App = ({ Component, pageProps }: AppProps) => {
     )
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        breakpoints,
+      }}
+    >
       <ErrorBoundary>
         <trpcReact.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>

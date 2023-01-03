@@ -1,3 +1,5 @@
+@import "scss/mixins";
+
 .wave {
   position: absolute;
   left: 0;
@@ -5,6 +7,7 @@
   width: 100%;
   height: auto;
   z-index: 10;
+  pointer-events: none;
 
   &[data-position="top"] {
     top: -1px;
@@ -13,4 +16,6 @@
   &[data-position="bottom"] {
     bottom: -1px;
   }
+
+  @include unselectable();
 }

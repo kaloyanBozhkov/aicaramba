@@ -12,19 +12,25 @@
     @media (orientation: portrait) {
       &[data-is-device="mobile"] {
         .content {
-          width: 90%;
-          min-height: 30%;
+          width: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          height: 35rem;
           background: radial-gradient(circle, rgb(0 0 0 / 30%) 84%, rgb(0 0 0 / 0%) 90%);
 
           h2 {
             background: unset;
+            font-size: 4rem;
+            line-height: 4.2rem;
           }
         }
       }
 
       &[data-is-device="tablet"] {
         .content {
-          width: 90%;
+          width: fit-content;
           background: radial-gradient(circle, rgb(0 0 0 / 30%) 84%, rgb(0 0 0 / 0%) 90%);
           align-self: flex-end;
           margin-bottom: 5%;
@@ -90,11 +96,12 @@
     align-self: flex-end;
     gap: $marginUnit;
     margin: auto;
-    height: 50%;
+    min-height: 50%;
 
     @include breakpoint(mobile, portrait) {
       top: 0;
     }
+
     @include breakpoint(mobile, landscape) {
       top: 0;
     }
@@ -109,31 +116,22 @@
       padding: 1rem 2rem;
     }
 
-    a {
-      padding: $paddingUnit;
-      position: relative;
-      background-color: rgba(0 0 0 / 20%);
-
-      > p {
-        color: white;
-        opacity: 100%;
-        font-size: 1.75rem;
+    @include mediaQuery(mobile) {
+      h2 {
+        max-width: 70%;
       }
+    }
 
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        border: 1px solid white;
-        opacity: 100%;
-      }
+    .actions {
+      @include mediaQuery(mobile) {
+        margin-bottom: $baseUnit;
 
-      &:hover {
-        &::before {
-          border: 2px solid white;
+        a {
+          width: 100%;
+
+          button {
+            width: 100%;
+          }
         }
       }
     }

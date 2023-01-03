@@ -10,7 +10,10 @@ import Product from 'classes/Product'
 import { groupProductsByStatus } from 'hooks/data/selectors/useCatalogProducts'
 import useSetupProducts from 'hooks/data/useSetupProducts'
 
+import FancyTitle from 'components/atoms/FancyTitle/FancyTitle.atom'
+
 import Loading from 'components/molecules/Loading/Loading.molecule'
+import PageHeader from 'components/molecules/PageHeader/PageHeader.molecule'
 import SearchBar from 'components/molecules/SearchBar/SearchBar.molecule'
 
 import ProductAddDrawer from 'components/organisms/ProductAddDrawer/ProductAddDrawer.organism'
@@ -19,7 +22,7 @@ import ProductCollection from 'components/organisms/ProductCollection/ProductCol
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
 import PageStack from 'components/templates/PageStack/PageStack.template'
 
-import { Text } from '@mantine/core'
+import { Group, Text } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 
 export default function Search() {
@@ -104,16 +107,25 @@ export default function Search() {
     <>
       <Head>
         <title>AI Caramba | Search</title>
-        <meta name="description" content="Search our AI Generated T-Shirts" />
+        <meta name="description" content="Search AI generated Artworks" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageStack style={noMatches ? { paddingBottom: '5rem' } : undefined}>
+        <PageHeader
+          title={
+            <Group style={{ marginBottom: '1rem' }} noWrap align="center">
+              <FancyTitle
+                title="Search Engine"
+                subtitle="The AI Caramba factory at your fingertips!"
+              />
+            </Group>
+          }
+          background="search"
+        />
         <CappedContainerTemplate
           withWrapper
           style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '2rem' }}
         >
-          <h2 style={{ fontWeight: 600 }}>Search Engine</h2>
-          <p>The AI Caramba factory is at your fingertips!</p>
           <SearchBar onSearch={setSearch} onClear={() => router.back()} />
         </CappedContainerTemplate>
         <CappedContainerTemplate

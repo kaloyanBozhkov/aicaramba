@@ -1,0 +1,100 @@
+@import "scss/variables";
+@import "scss/mixins";
+
+$startPos: translateX(85%) scale(3);
+
+@keyframes animate-wave {
+  from {
+    transform: $startPos;
+  }
+
+  to {
+    transform: translateX(-5%) scale(1.2);
+  }
+}
+
+.pageHeader {
+  width: 100%;
+  height: 14rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -2rem;
+
+  &[data-background="NEW"] {
+    background: $statusNewBg;
+    background: $statusNewBackground;
+  }
+
+  &[data-background="FIRE"] {
+    background: $statusFireBg;
+    background: $statusFireBackground;
+  }
+
+  &[data-background="SOLD"] {
+    background: $statusSoldBg;
+    background: $statusSoldBackground;
+  }
+
+  &[data-background="GONE"] {
+    background: $statusGoneBg;
+    background: $statusGoneBackground;
+  }
+
+  &[data-background="search"] {
+    background: rgb(177 178 255);
+    background: linear-gradient(
+      90deg,
+      rgba(177 178 255 / 100%) 0%,
+      rgba(170 196 255 / 100%) 65%,
+      rgba(210 218 255 / 100%) 98%
+    );
+  }
+
+  &[data-color="dark"] {
+    * {
+      color: $textPrimary;
+    }
+  }
+
+  &[data-color="bright"] {
+    * {
+      color: white;
+      text-shadow: 0 0 10px rgba(0 0 0 / 15%);
+    }
+  }
+
+  .content {
+    padding: $paddingUnit;
+    height: 100%;
+    opacity: 0%;
+
+    @include animate(slide-in-bottom-with-opacity, 500ms, 400ms, forwards);
+  }
+
+  > img {
+    transform: $startPos;
+    z-index: 2;
+
+    &[data-position="bottom"] {
+      bottom: -22%;
+
+      @include mediaQuery(tabletSmall) {
+        bottom: -36%;
+      }
+
+      @include mediaQuery(tabletBig) {
+        bottom: -55%;
+      }
+
+      @include mediaQuery(desktop) {
+        bottom: -65%;
+      }
+
+      @include mediaQuery(big-desktop) {
+        bottom: -65%;
+      }
+    }
+
+    @include animate(animate-wave, 1s, 0s, forwards);
+  }
+}

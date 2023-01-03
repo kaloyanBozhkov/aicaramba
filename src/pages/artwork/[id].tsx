@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { trcpCaller } from 'server/trpc/routers/_app'
 
@@ -6,16 +6,21 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
 import { useCart } from 'stores/Cart.store'
+import { useProducts } from 'stores/Products.store'
 
 import Product, { type IProductProps } from 'classes/Product'
 
+import useSetupProducts from 'hooks/data/useSetupProducts'
 import useMobileCheck from 'hooks/styles/useMobileCheck'
 import useTabletCheck from 'hooks/styles/useTabletCheck'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
+import FancyTitle from 'components/atoms/FancyTitle/FancyTitle.atom'
+import MainIcons from 'components/atoms/MainIcons/MainIcons.atom'
 import MessageContent from 'components/atoms/MessageContent/MessageContent.atom'
 import TextWritten from 'components/atoms/TextWritten/TextWritten.atom'
 
+import PageHeader from 'components/molecules/PageHeader/PageHeader.molecule'
 import ProductColorSelector from 'components/molecules/ProductColorSelector/ProductColorSelector.molecule'
 import ProductInfo from 'components/molecules/ProductInfo/ProductInfo.molecule'
 import ProductPreview from 'components/molecules/ProductPreview/ProductPreview.molecule'
@@ -48,7 +53,10 @@ export default function Artwork({
   product: p,
   isAvailable,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const product = new Product(p),
+  // add product to store state
+  useSetupProducts(p)
+
+  const product = useProducts(useCallback((s) => s.products[p.id], [p.id])),
     cartControls = useCart((cart) => cart.controls),
     inCart = useCart(useCallback((cart) => cart.products[p.id], [p.id])),
     isPending = useCart(useCallback((cart) => cart.pending.includes(p.id), [p.id])),
@@ -61,7 +69,9 @@ export default function Artwork({
     canRemove = inCart && !changedConfig,
     action = useRef(''),
     isMobile = useMobileCheck(),
-    isPortraitTablet = useTabletCheck({ onlyPortrait: true, tabletSizeTarget: 'small' })
+    isPortraitTablet = useTabletCheck({ onlyPortrait: true, tabletSizeTarget: 'smallish' })
+
+  if (!product) return <p>Loading</p>
 
   // @TODO add removing or updating text if needed
   if (isPending) action.current = 'ADDING TO BAG'
@@ -97,10 +107,19 @@ export default function Artwork({
     <>
       <Head>
         <title>{`AI Caramba | #${p.id}`}</title>
-        <meta name="description" content={`AI Generated T-Shirt ${p.id}`} />
+        <meta name="description" content={`AI Generated T-Shirt: ${p.name}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <PageStack>
+      <PageStack spacing={0}>
+        <PageHeader
+          title={
+            <Group style={{ marginBottom: '1rem' }} spacing="xs" noWrap>
+              <MainIcons icon={product.status} style={{ width: '6rem', height: '5rem' }} />
+              <FancyTitle title="ARTWORK N." subtitle={`#${product.id}`} />
+            </Group>
+          }
+          background={product.status}
+        />
         <CappedContainerTemplate withWrapper>
           <ProductTemplate
             leftSide={

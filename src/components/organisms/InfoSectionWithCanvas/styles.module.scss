@@ -96,18 +96,18 @@
   }
 
   &[data-variant="new"] {
-    background: #8ae8d1;
-    background: linear-gradient(90deg, rgb(138 232 209 / 100%) 0%, rgb(5 236 220 / 100%) 100%);
+    background: $statusNewBg;
+    background: $statusNewBackground;
   }
 
   &[data-variant="fire"] {
-    background: rgb(203 174 140);
-    background: linear-gradient(280deg, rgb(203 174 140 / 100%) 0%, rgb(239 196 153 / 100%) 100%);
+    background: $statusFireBg;
+    background: $statusFireBackground;
   }
 
   &[data-variant="sold"] {
-    background: rgb(214 127 175);
-    background: linear-gradient(0deg, rgb(214 127 175 / 100%) 0%, rgb(152 112 212 / 100%) 100%);
+    background: $statusSoldBg;
+    background: $statusSoldBackground;
 
     .richText {
       h2,
@@ -118,8 +118,8 @@
   }
 
   &[data-variant="gone"] {
-    background: rgb(85 68 243);
-    background: linear-gradient(0deg, rgb(35 29 97) 0%, rgb(90 77 242) 100%);
+    background: $statusGoneBg;
+    background: $statusGoneBackground;
 
     .richText {
       h2,

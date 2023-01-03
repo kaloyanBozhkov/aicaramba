@@ -39,3 +39,15 @@ $columnGap: $marginUnit * 2; // right
 $headerDesktopH: 95px;
 $headerMobileH: 64px;
 $announcementH: 3.5rem;
+
+$statusNewBg: #8ae8d1;
+$statusNewBackground: linear-gradient(90deg, rgb(138 232 209 / 100%) 0%, rgb(5 236 220 / 100%) 100%);
+
+$statusFireBg: rgb(203 174 140);
+$statusFireBackground: linear-gradient(280deg, rgb(203 174 140 / 100%) 0%, rgb(239 196 153 / 100%) 100%);
+
+$statusSoldBg: rgb(214 127 175);
+$statusSoldBackground: linear-gradient(0deg, rgb(214 127 175 / 100%) 0%, rgb(152 112 212 / 100%) 100%);
+
+$statusGoneBg: rgb(85 68 243);
+$statusGoneBackground: linear-gradient(0deg, rgb(35 29 97) 0%, rgb(90 77 242) 100%);

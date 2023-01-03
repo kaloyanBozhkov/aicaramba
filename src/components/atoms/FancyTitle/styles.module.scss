@@ -1,0 +1,42 @@
+@import "scss/variables";
+@import "scss/breakpoints";
+
+.fancyTitle {
+  height: 100%;
+
+  h4 {
+    font-weight: bold;
+    opacity: 80%;
+    letter-spacing: 0.8px;
+    font-size: 2.6rem;
+    line-height: 2.5rem;
+  }
+
+  p {
+    font-weight: normal;
+    font-size: 1.4rem;
+    line-height: 1rem;
+  }
+
+  @include mediaQuery(desktop) {
+    h4 {
+      font-size: 2.8rem;
+      line-height: 2.6rem;
+    }
+
+    p {
+      font-size: 1.6rem;
+    }
+  }
+
+  @include mediaQuery(desktop-big) {
+    h4 {
+      font-size: 2.8rem;
+      line-height: 2.6rem;
+    }
+
+    p {
+      font-size: 1.6rem;
+    }
+  }
+}

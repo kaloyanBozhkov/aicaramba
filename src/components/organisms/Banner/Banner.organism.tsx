@@ -6,9 +6,11 @@ import NavLink from 'next/link'
 import useMobileCheck from 'hooks/styles/useMobileCheck'
 import useTabletCheck from 'hooks/styles/useTabletCheck'
 
+import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
+
 import RichText from 'components/molecules/RichText/RichText.molecule'
 
-import { Center, Group, Overlay } from '@mantine/core'
+import { Center, Grid, Group, Overlay } from '@mantine/core'
 
 import styles from './styles.module.scss'
 
@@ -40,18 +42,22 @@ const Banner = () => {
           justify="middle"
           title={
             <>
-              Truly unique <b>AI</b> powered T-Shirts.
+              Truly unique <b>AI</b> powered <span style={{ whiteSpace: 'nowrap' }}>T-Shirts</span>.
             </>
           }
         />
-        <Group spacing="xl">
-          <NavLink href="/catalog" data-naked="true">
-            <p>Explore now</p>
-          </NavLink>
-          <NavLink href="/faq" data-naked="true">
-            <p>Learn more</p>
-          </NavLink>
-        </Group>
+        <Grid columns={2} gutter="md" gutterSm="xl" className={styles.actions}>
+          <Grid.Col xs={2} sm={1}>
+            <NavLink href="/catalog" data-naked="true">
+              <ActionButton withShadow label="Explore now" modifier="primary" />
+            </NavLink>
+          </Grid.Col>
+          <Grid.Col xs={2} sm={1}>
+            <NavLink href="/faq" data-naked="true">
+              <ActionButton withShadow label="Learn more" modifier="secondary" />
+            </NavLink>
+          </Grid.Col>
+        </Grid>
       </Center>
       <Overlay className={styles.overlay} color="#000" zIndex={5} />
       {isMobile && (

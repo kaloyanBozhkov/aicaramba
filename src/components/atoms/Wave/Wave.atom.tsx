@@ -10,6 +10,7 @@ const Wave = ({ position }: { position: 'top' | 'bottom' }) => (
     data-position={position}
     width={500}
     height={500}
+    priority
   />
 )
 
