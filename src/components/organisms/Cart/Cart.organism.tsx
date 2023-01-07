@@ -6,7 +6,6 @@ import useCartProducts from 'hooks/data/selectors/useCartProducts'
 import useOnLocationChange from 'hooks/location/useOnLocationChange'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
-import Price from 'components/atoms/Price/Price.atom'
 
 import CartTotal from 'components/molecules/CartTotal/CartTotal.molecule'
 

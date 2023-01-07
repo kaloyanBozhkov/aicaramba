@@ -20,6 +20,19 @@
   :global(.mantine-Drawer-drawer) {
     display: flex;
     flex-direction: column;
+    width: $cartWidth;
+
+    @include mediaQuery(mobile) {
+      width: $cartSmallWidth;
+    }
+
+    @include mediaQuery(smallishTablet) {
+      width: $cartSmallWidth;
+    }
+
+    @include mediaQuery(tabletSmall) {
+      width: $cartSmallWidth;
+    }
   }
 
   :global(.mantine-Drawer-body) {

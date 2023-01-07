@@ -6,7 +6,7 @@
   &[data-fixed="true"] {
     position: fixed;
     top: 0;
-    right: 50rem;
+    right: $cartWidth;
     left: 0;
     bottom: 0;
     width: 50vw;
@@ -14,13 +14,36 @@
     background-color: $secondaryBack;
     padding: $marginUnit;
     height: fit-content;
+    margin: auto;
+    opacity: 0%;
+
+    @include mediaQuery(mobile) {
+      right: $cartSmallWidth;
+    }
+
+    @include mediaQuery(smallishTablet) {
+      right: $cartSmallWidth;
+    }
+
+    @include mediaQuery(tabletSmall) {
+      right: $cartSmallWidth;
+    }
   }
 
-  margin: auto;
-  opacity: 0%;
-
   &[data-solo="true"] {
-    max-width: 50rem;
+    max-width: 40rem;
+
+    @media (max-width: 660px) {
+      display: none;
+    }
+
+    @include mediaQuery(tablet) {
+      max-width: 35rem;
+    }
+
+    @include mediaQuery(smallishTablet) {
+      max-width: 25rem;
+    }
   }
 
   @include animate(pop-in-with-opacity, 400ms, 300ms, forwards);
