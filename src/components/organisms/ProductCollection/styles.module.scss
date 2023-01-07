@@ -31,6 +31,10 @@
   }
 
   .cardWrapper {
+    &[data-single="true"] {
+      flex-direction: column;
+    }
+
     a:hover {
       h2 {
         opacity: 70%;

@@ -1,0 +1,27 @@
+@import "scss/variables";
+@import "scss/mixins";
+@import "scss/keyframes";
+
+.suggestProducts {
+  &[data-fixed="true"] {
+    position: fixed;
+    top: 0;
+    right: 50rem;
+    left: 0;
+    bottom: 0;
+    width: 50vw;
+    z-index: $zIndexMax + 1;
+    background-color: $secondaryBack;
+    padding: $marginUnit;
+    height: fit-content;
+  }
+
+  margin: auto;
+  opacity: 0%;
+
+  &[data-solo="true"] {
+    max-width: 50rem;
+  }
+
+  @include animate(pop-in-with-opacity, 400ms, 300ms, forwards);
+}

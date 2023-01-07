@@ -3,9 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { productsSeed } from './products'
 
 const prisma = new PrismaClient(),
-  main = async () => {
-    ;[productsSeed].forEach(async (s) => await s(prisma))
-  }
+  main = async () => [productsSeed].forEach(async (s) => s(prisma))
 
 main()
   .then(async () => {

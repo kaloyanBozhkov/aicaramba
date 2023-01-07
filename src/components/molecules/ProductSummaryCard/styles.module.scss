@@ -3,6 +3,12 @@
 .productSummaryCard {
   align-items: stretch;
 
+  &[data-without-price="true"] {
+    [data-price="true"] {
+      display: none;
+    }
+  }
+
   > a {
     overflow: hidden;
 

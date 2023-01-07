@@ -21,7 +21,7 @@ import SocialFollowing from 'components/molecules/SocialFollowing/SocialFollowin
 
 import CappedContainerTemplate from 'components/templates/CappedContainer/CappedContainer.template'
 
-import { Burger, Container, Drawer, Group, Stack } from '@mantine/core'
+import { Burger, Center, Container, Drawer, Group, Stack } from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
 
 import styles from './styles.module.scss'
@@ -44,17 +44,9 @@ const HeaderMobile = () => {
   return (
     <div className={styles.headerMobileWrapper}>
       <Container fluid className={styles.headerMobile} data-scroll-dir={scrollDirOverwritten}>
-        <CappedContainerTemplate withWrapper className={styles.wrapper}>
-          <Container className={styles.even}>
+        <CappedContainerTemplate withWrapper className={styles.wrapper} p={0} pos="relative">
+          <Group align="start">
             <Burger opened={menuShowing} onClick={() => toggleMenuOpened((o) => !o)} />
-          </Container>
-          <Container className={styles.odd}>
-            <Link href="/" data-naked="true">
-              <Logo height="85%" />
-            </Link>
-          </Container>
-          <Group className={styles.even}>
-            {/* @TODO add search pop-up on click */}
             <Link data-naked="true" href="/search" className={styles.icon}>
               <Image
                 src="/assets/icons/search.svg"
@@ -63,8 +55,13 @@ const HeaderMobile = () => {
                 height={iconSize}
               />
             </Link>
-            <CartButton iconSize={iconSize} />
           </Group>
+          <Center pos="absolute" style={{ left: 0, right: 0, margin: 'auto' }}>
+            <Link href="/" data-naked="true" as="/home">
+              <Logo height="85%" />
+            </Link>
+          </Center>
+          <CartButton iconSize={iconSize} />
         </CappedContainerTemplate>
       </Container>
       <Drawer

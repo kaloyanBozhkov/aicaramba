@@ -31,12 +31,10 @@
 
     .mobileActions {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: $paddingUnit;
+      right: $paddingUnit;
       justify-content: center;
       align-items: flex-end;
-      padding: $paddingUnit;
     }
 
     .overlay {

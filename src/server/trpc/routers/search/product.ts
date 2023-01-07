@@ -1,3 +1,5 @@
+import { findMostCommonString } from 'server/trpc/utils/common'
+
 import { z } from 'zod'
 
 import { publicProcedure, router } from '../../trpc'
@@ -85,4 +87,78 @@ export const searchRouter = router({
 
       return [...soldDeals, ...newDeals, ...goneDeals, ...fireDeals]
     }),
+  suggestArtworks: publicProcedure
+    .input(
+      z.object({
+        quantity: z.number(),
+        searchContent: z.object({
+          colorSchemes: z.array(z.string()),
+          styles: z.array(z.string()),
+          omitIds: z.array(z.string()),
+        }),
+      })
+    )
+    .query(
+      async ({
+        ctx,
+        input: {
+          quantity,
+          searchContent: { colorSchemes, styles, omitIds },
+        },
+      }) => {
+        const searchForColorScheme = findMostCommonString(colorSchemes),
+          searchForStyle = findMostCommonString(styles),
+          whereColorSchemeOrStyleMatch =
+            searchForColorScheme && searchForStyle
+              ? {
+                  OR: [
+                    {
+                      colorScheme: {
+                        contains: searchForColorScheme,
+                      },
+                    },
+                    {
+                      style: {
+                        contains: searchForStyle,
+                      },
+                    },
+                  ],
+                }
+              : false,
+          found = await ctx.prisma.product.findMany({
+            where: {
+              ...whereColorSchemeOrStyleMatch,
+              AND: {
+                OR: [{ status: 'FIRE' }, { status: 'NEW' }],
+                id: { notIn: omitIds },
+              },
+            },
+            select,
+            take: quantity,
+            orderBy: {
+              updatedAt: 'asc',
+            },
+          })
+
+        if (found.length === quantity) return found
+
+        // add random results if required matches are not enough
+        const remaining = quantity - found.length,
+          anotherOne = await ctx.prisma.product.findMany({
+            where: {
+              AND: {
+                OR: [{ status: 'FIRE' }, { status: 'NEW' }],
+                id: { notIn: [...omitIds, ...found.map(({ id }) => id)] },
+              },
+            },
+            select,
+            take: remaining,
+            orderBy: {
+              updatedAt: 'asc',
+            },
+          })
+
+        return [...found, ...anotherOne]
+      }
+    ),
 })

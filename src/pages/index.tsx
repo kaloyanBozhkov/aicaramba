@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 import { type IProductProps } from 'classes/Product'
 
-import useCatalogProducts from 'hooks/data/selectors/useCatalogProducts'
+import useGroupProductsByStatus from 'hooks/data/selectors/useCatalogProducts'
 import useSetupProducts from 'hooks/data/useSetupProducts'
 
 import AboutUs from 'components/organisms/AboutUs/AboutUs.organism'
@@ -20,9 +20,8 @@ import PageStack from 'components/templates/PageStack/PageStack.template'
 import { ProductStatus } from '@prisma/client'
 
 export default function Home({ products }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useSetupProducts(products)
-
-  const { fresh, sold, gone, fire } = useCatalogProducts()
+  const p = useSetupProducts(products),
+    { fresh, sold, gone, fire } = useGroupProductsByStatus(p)
 
   return (
     <>
@@ -66,7 +65,7 @@ export default function Home({ products }: InferGetServerSidePropsType<typeof ge
           <ProductCollection
             title="Fire Artworks"
             subtitle="AAH!! Time is running out!"
-            goTo="/artworks/going"
+            goTo="/artworks/fire"
             products={fire}
           />
         </CappedContainerTemplate>
@@ -104,7 +103,7 @@ export default function Home({ products }: InferGetServerSidePropsType<typeof ge
           <ProductCollection
             title="Missed Artworks"
             subtitle="Ai Caramba! These are forever gone :("
-            goTo="/artworks/missed"
+            goTo="/artworks/gone"
             products={gone}
           />
         </CappedContainerTemplate>

@@ -1,31 +1,28 @@
-import { useProducts } from 'stores/Products.store'
+import { useMemo } from 'react'
 
 import type Product from 'classes/Product'
 
-export const groupProductsByStatus = (products: Product[] = []) =>
-  products.reduce(
-    (acc, p) => {
-      const key = p.status.toLowerCase() as keyof typeof acc
-      return {
-        ...acc,
-        [key]: [...acc[key], p],
-      }
-    },
-    {
-      new: [] as Product[],
-      sold: [] as Product[],
-      gone: [] as Product[],
-      fire: [] as Product[],
-    }
-  )
+export const groupProductsByStatus = (products?: Product[] | Product) => {
+  const initialState = {
+    new: [] as Product[],
+    sold: [] as Product[],
+    gone: [] as Product[],
+    fire: [] as Product[],
+  }
 
-const useCatalogProducts = () => {
-  const {
-    fire,
-    sold,
-    gone,
-    new: fresh,
-  } = useProducts(({ products }) => groupProductsByStatus(Object.values(products)))
+  if (!products) return initialState
+
+  return (Array.isArray(products) ? products : [products]).reduce((acc, p) => {
+    const key = p.status.toLowerCase() as keyof typeof acc
+    return {
+      ...acc,
+      [key]: [...acc[key], p],
+    }
+  }, initialState)
+}
+
+const useGroupProductsByStatus = (p?: Product[] | Product) => {
+  const { new: fresh, sold, gone, fire } = useMemo(() => groupProductsByStatus(p), [p])
 
   return {
     fire,
@@ -35,4 +32,4 @@ const useCatalogProducts = () => {
   }
 }
 
-export default useCatalogProducts
+export default useGroupProductsByStatus

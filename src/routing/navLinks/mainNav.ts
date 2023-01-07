@@ -28,7 +28,7 @@ const mainNav: NavItem[] = [
         subtitle: 'Available Deals',
         content: [
           {
-            to: '/artworks/fresh',
+            to: '/artworks/new',
             label: 'Fresh Artworks',
             icon: ProductStatus.NEW,
           },
@@ -48,7 +48,7 @@ const mainNav: NavItem[] = [
             icon: ProductStatus.SOLD,
           },
           {
-            to: '/artworks/missed',
+            to: '/artworks/gone',
             label: 'Gone Artworks',
             icon: ProductStatus.GONE,
           },

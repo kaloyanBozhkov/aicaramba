@@ -6,9 +6,9 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 
 import { useCart } from 'stores/Cart.store'
-import { useProducts } from 'stores/Products.store'
 
-import Product, { type IProductProps } from 'classes/Product'
+import type Product from 'classes/Product'
+import { type IProductProps } from 'classes/Product'
 
 import useSetupProducts from 'hooks/data/useSetupProducts'
 import useMobileCheck from 'hooks/styles/useMobileCheck'
@@ -17,7 +17,7 @@ import useTabletCheck from 'hooks/styles/useTabletCheck'
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 import FancyTitle from 'components/atoms/FancyTitle/FancyTitle.atom'
 import MainIcons from 'components/atoms/MainIcons/MainIcons.atom'
-import MessageContent from 'components/atoms/MessageContent/MessageContent.atom'
+import ShippingCost from 'components/atoms/ShippingCost/ShippingCost.atom'
 import TextWritten from 'components/atoms/TextWritten/TextWritten.atom'
 
 import PageHeader from 'components/molecules/PageHeader/PageHeader.molecule'
@@ -38,7 +38,6 @@ import {
   faPaintBrush,
   faQrcode,
   faShirt,
-  faTruck,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Accordion, Divider, Group, Space, Stack } from '@mantine/core'
@@ -54,9 +53,7 @@ export default function Artwork({
   isAvailable,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // add product to store state
-  useSetupProducts(p)
-
-  const product = useProducts(useCallback((s) => s.products[p.id], [p.id])),
+  const product = useSetupProducts(p) as Product,
     cartControls = useCart((cart) => cart.controls),
     inCart = useCart(useCallback((cart) => cart.products[p.id], [p.id])),
     isPending = useCart(useCallback((cart) => cart.pending.includes(p.id), [p.id])),
@@ -68,7 +65,7 @@ export default function Artwork({
     }, [inCart, size, color]),
     canRemove = inCart && !changedConfig,
     action = useRef(''),
-    isMobile = useMobileCheck(),
+    isMobile = useMobileCheck({ onlyPortrait: true }),
     isPortraitTablet = useTabletCheck({ onlyPortrait: true, tabletSizeTarget: 'smallish' })
 
   if (!product) return <p>Loading</p>
@@ -84,7 +81,7 @@ export default function Artwork({
         withShadow
         label="SUBSCRIBE TO UPDATES"
         modifier="secondary"
-        leftIcon={faEnvelope}
+        leftFontAwesomeIcon={faEnvelope}
         onClick={console.warn}
       />
     ),
@@ -159,7 +156,9 @@ export default function Artwork({
                         withShadow
                         label={action.current}
                         modifier={canRemove ? 'secondary' : 'primary'}
-                        leftIcon={canRemove ? faCircleXmark : isPending ? undefined : faBagShopping}
+                        leftFontAwesomeIcon={
+                          canRemove ? faCircleXmark : isPending ? undefined : faBagShopping
+                        }
                         onClick={() => {
                           if (canRemove) {
                             cartControls.remove(product.id)
@@ -184,14 +183,10 @@ export default function Artwork({
                   subToUpdatesBtn
                 )}
                 {isAvailable ? (
-                  <MessageContent>
-                    <Group>
-                      <FontAwesomeIcon icon={faTruck} /> <p>Free Standard delivery over €80</p>
-                    </Group>
-                  </MessageContent>
+                  <ShippingCost />
                 ) : (
                   <p>
-                    Click to show what happened with produt (who bought it or if it wa sdeleted)
+                    Click to show what happened with produt (who bought it or if it was deleted)
                   </p>
                 )}
                 <Divider my="sm" />

@@ -4,8 +4,6 @@ import Image from 'next/image'
 import NavLink from 'next/link'
 import Link from 'next/link'
 
-import { type IProductProps } from 'classes/Product'
-
 import Status from 'components/atoms/Status/Status.atom'
 
 import ProductInfo from 'components/molecules/ProductInfo/ProductInfo.molecule'
@@ -32,6 +30,7 @@ type IProductSummaryCardProps = {
   modifier?: 'default' | 'brief'
   children?: ReactNode
   onToggleBrief?: () => void
+  withoutPrice?: boolean
 }
 
 const ProductSummaryCard = ({
@@ -46,6 +45,7 @@ const ProductSummaryCard = ({
   className,
   modifier = 'default',
   children,
+  withoutPrice = false,
   onToggleBrief,
 }: IProductSummaryCardProps) => {
   const [showingBrief, setShowingBrief] = useState(modifier === 'brief'),
@@ -64,7 +64,11 @@ const ProductSummaryCard = ({
     )
 
   return (
-    <Group className={extendClassNameProp(styles.productSummaryCard, className)} noWrap>
+    <Group
+      className={extendClassNameProp(styles.productSummaryCard, className)}
+      noWrap
+      data-without-price={withoutPrice === true ? 'true' : undefined}
+    >
       <NavLink href={to} data-naked="true">
         <Image
           src={imgSrc}

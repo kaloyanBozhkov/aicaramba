@@ -37,6 +37,18 @@
   }
 }
 
+@keyframes pop-in-with-opacity {
+  from {
+    transform: scale(0);
+    opacity: 0%;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 100%;
+  }
+}
+
 @keyframes opacity-in-delayed {
   0% {
     opacity: 0%;

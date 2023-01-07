@@ -1,17 +1,14 @@
-import { useCallback } from 'react'
-
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { useCart } from 'stores/Cart.store'
-import { useProducts } from 'stores/Products.store'
 
-import Product from 'classes/Product'
-
+import useCartProducts from 'hooks/data/selectors/useCartProducts'
 import useOnLocationChange from 'hooks/location/useOnLocationChange'
 
 import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 import Price from 'components/atoms/Price/Price.atom'
+
+import CartTotal from 'components/molecules/CartTotal/CartTotal.molecule'
 
 import { Drawer, Group, Stack, Text } from '@mantine/core'
 
@@ -20,33 +17,20 @@ import CartProductCard from '../CartProductCard/CartProductCard.organism'
 import styles from './styles.module.scss'
 
 const Cart = () => {
-  const cart = useCart(),
-    productsInCart = useProducts(
-      useCallback(
-        (state) => {
-          const pIds = Object.keys(cart.products),
-            products = Object.values(state.products)
-
-          // select products that are in cart
-          return products.reduce(
-            (acc, p) => [...acc, ...(pIds.includes(p.id) ? [p] : [])],
-            [] as Product[]
-          )
-        },
-        [cart.products]
-      )
-    ),
-    cartEmpty = productsInCart.length === 0
+  const cartControls = useCart((cart) => cart.controls),
+    cartOpened = useCart((cart) => cart.opened),
+    productsInCart = useCartProducts(),
+    empty = productsInCart.length === 0
 
   useOnLocationChange({
-    onChange: () => cart.controls.close(),
+    onChange: () => cartControls.close(),
   })
 
   return (
     <Drawer
-      opened={cart.opened}
+      opened={cartOpened}
       className={styles.cart}
-      onClose={cart.controls.close}
+      onClose={cartControls.close}
       closeOnClickOutside
       closeOnEscape
       position="right"
@@ -63,10 +47,10 @@ const Cart = () => {
       lockScroll
     >
       <Stack className={styles.productsWrapper}>
-        {cartEmpty ? (
+        {empty ? (
           <h3>YOUR BAG IS CURRENTLY EMPTY.</h3>
         ) : (
-          productsInCart.map((p) => (
+          productsInCart.map(({ product: p, config }) => (
             <CartProductCard
               key={p.id}
               style={p.style}
@@ -77,22 +61,18 @@ const Cart = () => {
               status={p.status}
               to={p.url}
               imgSrc={p.imgSrc}
-              {...cart.products[p.id]}
-              onRemove={() => cart.controls.remove(p.id)}
+              {...config}
+              onRemove={() => cartControls.remove(p.id)}
             />
           ))
         )}
       </Stack>
-      {!cartEmpty && (
+      {!empty && (
         <Stack className={styles.bottom}>
-          <Group align="center" position="apart" className={styles.cartTotal}>
-            <p>Total:</p>
-            <Price
-              price={productsInCart.reduce((acc, p) => acc + p.price, 0)}
-              currency={productsInCart[0].currency}
-              className={styles.price}
-            />
-          </Group>
+          <CartTotal
+            totalPrice={productsInCart.reduce((acc, { product: p }) => acc + p.price, 0)}
+            currency={productsInCart[0].product.currency}
+          />
           <ActionButton withShadow label="CHECKOUT" modifier="primary" />
           <Link href="/bag" data-naked="true">
             <ActionButton withShadow label="YOUR BAG" modifier="secondary" />

@@ -34,7 +34,7 @@ const Header = () => {
     <div className={styles.headerWrapper}>
       <FluidContainer className={styles.header} data-scroll-dir={scrollDirOverwritten}>
         <CappedContainerTemplate withoutPadding className={styles.wrapper}>
-          <Link href="/" data-naked="true">
+          <Link href="/" data-naked="true" as="/home">
             <Logo height="85%" />
           </Link>
           <Group>

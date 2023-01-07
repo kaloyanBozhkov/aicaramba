@@ -1,13 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { trpcReact } from 'server/trpc/utils/trcpReact'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import Product from 'classes/Product'
-
-import { groupProductsByStatus } from 'hooks/data/selectors/useCatalogProducts'
+import useGroupProductsByStatus from 'hooks/data/selectors/useCatalogProducts'
 import useSetupProducts from 'hooks/data/useSetupProducts'
 
 import FancyTitle from 'components/atoms/FancyTitle/FancyTitle.atom'
@@ -36,17 +34,10 @@ export default function Search() {
       // do not fetch on mount, when nothing is searched yet
       { enabled: false }
     ),
-    // used only on current page
-    products = useMemo(() => {
-      if (!data) return []
-      return data.map((p) => new Product(p))
-    }, [data])
-
-  // add any searched products into store state & overwrite existing ones with latest data
-  useSetupProducts(data)
-
-  // filter products by status
-  const { fire, sold, gone, new: fresh } = groupProductsByStatus(products),
+    // add any searched products into store state & overwrite existing ones with latest data
+    products = useSetupProducts(data),
+    // filter products by status
+    { fresh, sold, gone, fire } = useGroupProductsByStatus(products),
     noMatches = !data?.length || error || !search || isLoading || search !== debounced
 
   // on search let's fetch our data
@@ -79,13 +70,13 @@ export default function Search() {
           <ProductCollection
             title="Fire Artworks"
             subtitle="AAH!! Time is running out! 🔥"
-            goTo="/artworks/going"
+            goTo="/artworks/fire"
             products={fire}
           />
         )}
         {!!sold.length && (
           <ProductCollection
-            title="Missed Artworks"
+            title="Sold Artworks"
             subtitle="Someone already claimed these 😎"
             goTo="/artworks/sold"
             products={sold}
@@ -95,7 +86,7 @@ export default function Search() {
           <ProductCollection
             title="Missed Artworks"
             subtitle="Ai Caramba! These are forever gone 💀"
-            goTo="/artworks/missed"
+            goTo="/artworks/gone"
             products={gone}
           />
         )}

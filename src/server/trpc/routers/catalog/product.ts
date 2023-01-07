@@ -11,56 +11,112 @@ const select = {
 }
 
 export const catalogRouter = router({
-  products: publicProcedure.query(({ ctx: { prisma } }) => {
+  products: publicProcedure.query(async ({ ctx: { prisma } }) => {
     return {
-      newDeals: prisma.product.findMany({
+      newDeals: await prisma.product.findMany({
         where: {
           status: 'NEW',
         },
         select: {
           ...select,
         },
-        take: 4,
+        take: 8,
         orderBy: {
           createdAt: 'asc',
         },
       }),
-      fireDeals: prisma.product.findMany({
+      fireDeals: await prisma.product.findMany({
         where: {
           status: 'FIRE',
         },
         select: {
           ...select,
         },
-        take: 4,
+        take: 8,
         orderBy: {
           updatedAt: 'asc',
         },
       }),
-      soldDeals: prisma.product.findMany({
+      soldDeals: await prisma.product.findMany({
         where: {
           status: 'SOLD',
         },
         select: {
           ...select,
         },
-        take: 4,
+        take: 8,
         orderBy: {
           updatedAt: 'asc',
         },
       }),
-      goneDeals: prisma.product.findMany({
+      goneDeals: await prisma.product.findMany({
         where: {
           status: 'GONE',
         },
         select: {
           ...select,
         },
-        take: 4,
+        take: 8,
         orderBy: {
           updatedAt: 'asc',
         },
       }),
     }
+  }),
+  freshArtworks: publicProcedure.query(({ ctx: { prisma } }) => {
+    return prisma.product.findMany({
+      where: {
+        status: 'NEW',
+      },
+      select: {
+        ...select,
+      },
+      take: 20,
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
+  }),
+  fireArtworks: publicProcedure.query(({ ctx: { prisma } }) => {
+    return prisma.product.findMany({
+      where: {
+        status: 'FIRE',
+      },
+      select: {
+        ...select,
+      },
+      take: 20,
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
+  }),
+  soldArtworks: publicProcedure.query(({ ctx: { prisma } }) => {
+    return prisma.product.findMany({
+      where: {
+        status: 'SOLD',
+      },
+      select: {
+        ...select,
+      },
+      take: 20,
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
+  }),
+  goneArtworks: publicProcedure.query(({ ctx: { prisma } }) => {
+    return prisma.product.findMany({
+      where: {
+        status: 'GONE',
+      },
+      select: {
+        ...select,
+      },
+      take: 20,
+      orderBy: {
+        createdAt: 'asc',
+      },
+    })
   }),
 })

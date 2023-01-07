@@ -3,7 +3,7 @@ import NavLink from 'next/link'
 
 import { useCart } from 'stores/Cart.store'
 
-import Product, { IProductProps } from 'classes/Product'
+import Product from 'classes/Product'
 
 import useDesktopCheck from 'hooks/styles/useDesktopCheck'
 

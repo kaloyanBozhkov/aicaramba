@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button } from '@mantine/core'
+import { Button, ButtonProps } from '@mantine/core'
 
 import { extendClassNameProp } from 'utils/utils.common'
 
@@ -13,8 +13,8 @@ type ActionButtonProps = {
   className?: string
   modifier?: string | 'naked' | 'primary' | 'secondary' | 'circularIconBtn' | 'subtle'
   onClick?: () => void
-  rightIcon?: IconProp
-  leftIcon?: IconProp
+  rightFontAwesomeIcon?: IconProp
+  leftFontAwesomeIcon?: IconProp
   withShadow?: boolean
 }
 
@@ -23,11 +23,11 @@ const ActionButton = ({
   onClick,
   className,
   modifier,
-  rightIcon,
-  leftIcon,
+  rightFontAwesomeIcon,
+  leftFontAwesomeIcon,
   withShadow,
   ...props
-}: ActionButtonProps) => (
+}: ActionButtonProps & Partial<ButtonProps>) => (
   <Button
     variant="filled"
     color="primary"
@@ -35,8 +35,8 @@ const ActionButton = ({
     onClick={onClick}
     data-modifier={modifier}
     data-shadow={withShadow}
-    rightIcon={rightIcon && <FontAwesomeIcon icon={rightIcon} />}
-    leftIcon={leftIcon && <FontAwesomeIcon icon={leftIcon} />}
+    rightIcon={rightFontAwesomeIcon && <FontAwesomeIcon icon={rightFontAwesomeIcon} />}
+    leftIcon={leftFontAwesomeIcon && <FontAwesomeIcon icon={leftFontAwesomeIcon} />}
     {...props}
   >
     {typeof label === 'string' && <p>{label}</p>}

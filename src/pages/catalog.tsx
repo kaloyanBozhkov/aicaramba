@@ -7,7 +7,7 @@ import Head from 'next/head'
 
 import { IProductProps } from 'classes/Product'
 
-import useCatalogProducts from 'hooks/data/selectors/useCatalogProducts'
+import useGroupProductsByStatus from 'hooks/data/selectors/useCatalogProducts'
 import useSetupProducts from 'hooks/data/useSetupProducts'
 
 import CatalogBanner from 'components/organisms/CatalogBanner/CatalogBanner.organism'
@@ -20,9 +20,8 @@ import PageStack from 'components/templates/PageStack/PageStack.template'
 export default function Catalogue({
   products,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  useSetupProducts(products)
-
-  const { fresh, sold, gone, fire } = useCatalogProducts()
+  const p = useSetupProducts(products),
+    { fresh, sold, gone, fire } = useGroupProductsByStatus(p)
 
   return (
     <>
@@ -46,11 +45,11 @@ export default function Catalogue({
           <ProductCollection
             title="Fire Artworks"
             subtitle="AAH!! Time is running out! 🔥"
-            goTo="/artworks/going"
+            goTo="/artworks/fire"
             products={fire}
           />
           <ProductCollection
-            title="Missed Artworks"
+            title="Sold Artworks"
             subtitle="Someone already claimed these 😎"
             goTo="/artworks/sold"
             products={sold}
@@ -58,7 +57,7 @@ export default function Catalogue({
           <ProductCollection
             title="Missed Artworks"
             subtitle="Ai Caramba! These are forever gone 💀"
-            goTo="/artworks/missed"
+            goTo="/artworks/gone"
             products={gone}
           />
         </CappedContainerTemplate>
@@ -74,7 +73,7 @@ type CatalogProps = {
 
 export const getServerSideProps: GetServerSideProps<CatalogProps> = async () => {
   const caller = await trcpCaller(),
-    { soldDeals, newDeals, goneDeals, fireDeals } = await caller.home.products()
+    { soldDeals, newDeals, goneDeals, fireDeals } = await caller.catalog.products()
 
   return {
     props: {

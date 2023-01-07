@@ -1,0 +1,26 @@
+@import "scss/variables";
+
+.cartTotal {
+  border-top: 1px solid $secondaryBack;
+  border-bottom: 1px solid $secondaryBack;
+  padding-top: $paddingUnit * 3;
+  padding-bottom: $paddingUnit;
+
+  p {
+    font-weight: 600;
+
+    &:first-child {
+      font-size: 1.5rem;
+    }
+  }
+
+  .price {
+    font-size: 1.65rem;
+  }
+
+  &[data-modifier="bigger"] {
+    p {
+      font-weight: 700;
+    }
+  }
+}

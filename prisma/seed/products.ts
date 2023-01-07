@@ -60,6 +60,15 @@ export const products = [
     style: 'digital art',
     colorScheme: 'random',
   },
+  {
+    id: randomUUID(),
+    name: 'A fox riding a rhino in the jungle',
+    status: ProductStatus.NEW,
+    currency: Currency.EUR,
+    price: 50,
+    style: '3d render',
+    colorScheme: 'rainbow',
+  },
   // fire
   {
     id: randomUUID(),
@@ -114,6 +123,24 @@ export const products = [
     price: 30,
     style: 'digital art',
     colorScheme: 'random',
+  },
+  {
+    id: randomUUID(),
+    name: 'Pineapple monster inside a closet',
+    status: ProductStatus.FIRE,
+    currency: Currency.EUR,
+    price: 30,
+    style: '3d render',
+    colorScheme: 'rainbow',
+  },
+  {
+    id: randomUUID(),
+    name: 'a bear shaving himself in his jungle bathroom',
+    status: ProductStatus.FIRE,
+    currency: Currency.EUR,
+    price: 30,
+    style: '3d render',
+    colorScheme: 'rainbow',
   },
   // sold
   {
@@ -228,8 +255,16 @@ export const products = [
 ]
 
 export const productsSeed = async (prisma: PrismaClient) => {
+  // get roducts
+  const existingP = await (
+      await prisma.product.findMany({ select: { name: true } })
+    ).map(({ name }) => name.toLowerCase()),
+    // filter out existing products
+    data = products.filter((p) => !existingP.includes(p.name.toLowerCase()))
+
+  // create new ones only
   await prisma.product.createMany({
-    data: products,
+    data,
   })
 }
 

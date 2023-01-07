@@ -13,19 +13,17 @@ const CartProductActions = ({
   currency,
   onRemove,
   price,
-  buttonPos,
+  buttonPos = 'bottom',
 }: {
   size: string
   color: string
-  onRemove: () => void
+  onRemove?: () => void
   currency: Currency
   price: number
-  buttonPos: 'bottom' | 'topRight'
+  buttonPos?: 'bottom' | 'topRight'
 }) => {
-  const Wrapper = buttonPos === 'bottom' ? Stack : Group
-
-  return (
-    <Wrapper position="apart" align={buttonPos === 'bottom' ? 'flex-start' : 'flex-end'}>
+  const Wrapper = buttonPos === 'bottom' ? Stack : Group,
+    content = (
       <Stack className={styles.configPreview} spacing={0}>
         <p>
           SIZE: <b>{size}</b>
@@ -38,8 +36,20 @@ const CartProductActions = ({
           <Price price={price} currency={currency} className={styles.price} />
         </Group>
       </Stack>
-      <ActionButton label="Remove" rightIcon={faClose} modifier="subtle" onClick={onRemove} />
+    )
+
+  return onRemove ? (
+    <Wrapper position="apart" align={buttonPos === 'bottom' ? 'flex-start' : 'flex-end'}>
+      {content}
+      <ActionButton
+        label="Remove"
+        rightFontAwesomeIcon={faClose}
+        modifier="subtle"
+        onClick={onRemove}
+      />
     </Wrapper>
+  ) : (
+    content
   )
 }
 

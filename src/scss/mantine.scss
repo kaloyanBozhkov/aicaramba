@@ -32,12 +32,29 @@ a {
       border-bottom: 1px solid $textPrimary;
     }
   }
+
+  &[data-full-width="true"] {
+    width: 100%;
+
+    button.mantine-Button-root {
+      width: 100%;
+    }
+  }
+}
+
+.mantine-Drawer-root {
+  z-index: $zIndexMax;
 }
 
 .mantine-Modal-modal {
   width: auto;
   height: auto;
   align-self: center;
+  z-index: $zIndexMaximum;
+
+  .mantine-Modal-inner {
+    padding: 0;
+  }
 }
 
 .mantine-Switch-root > input {

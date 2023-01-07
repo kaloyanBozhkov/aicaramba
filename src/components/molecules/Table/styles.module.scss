@@ -1,6 +1,36 @@
-@import "scss/breakpoints";
 @import "scss/variables";
 @import "scss/mixins";
+
+@mixin mobileStyles {
+  table {
+    thead {
+      display: none;
+    }
+
+    tbody {
+      td {
+        display: flex;
+        flex-direction: column;
+        border: none;
+        padding: 0;
+        padding: $baseUnit;
+
+        &::before {
+          content: attr(data-title);
+          font-weight: 300;
+        }
+      }
+
+      tr {
+        &:nth-child(odd) {
+          background-color: $secondaryFront;
+        }
+
+        border-bottom: $marginUnit solid transparent;
+      }
+    }
+  }
+}
 
 .tableWrapper {
   overflow: auto;
@@ -8,33 +38,13 @@
   white-space: nowrap;
   @include thinScrollBar();
 
-  @include mediaQuery(mobile) {
-    table {
-      thead {
-        display: none;
-      }
+  @media (max-width: 700px) {
+    @include mobileStyles();
 
-      tbody {
-        td {
-          display: flex;
-          flex-direction: column;
-          border: none;
-          padding: 0;
-          padding: $baseUnit;
-
-          &::before {
-            content: attr(data-title);
-            font-weight: 300;
-          }
-        }
-
-        tr {
-          &:nth-child(odd) {
-            background-color: $secondaryFront;
-          }
-
-          border-bottom: $marginUnit solid transparent;
-        }
+    &[data-flow-row-wrap-mobile="true"] {
+      tr {
+        display: flex;
+        flex-flow: row wrap;
       }
     }
   }

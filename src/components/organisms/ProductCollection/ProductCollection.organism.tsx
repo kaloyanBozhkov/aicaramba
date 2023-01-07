@@ -19,11 +19,13 @@ const ProductCollection = ({
   title,
   subtitle,
   goTo,
+  columns = 12,
 }: {
   products: Product[]
   title: string
   subtitle?: string | ReactNode
   goTo?: string
+  columns?: number
 }) => {
   const { add, remove } = useCart((cart) => cart.controls),
     cartPending = useCart((cart) => cart.pending),
@@ -43,7 +45,12 @@ const ProductCollection = ({
           </NavLink>
         )}
       </Group>
-      <Grid columns={12} gutter="md" className={styles.cardWrapper}>
+      <Grid
+        columns={columns}
+        gutter="md"
+        className={styles.cardWrapper}
+        data-single={products.length === 1 ? 'true' : undefined}
+      >
         {products.map((product, idx) => {
           const { imgSrc, name, id, url, price, currency, colorScheme, style, status } = product
           return (

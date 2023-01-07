@@ -257,41 +257,44 @@
       justify-content: space-between;
       display: flex;
       gap: $marginUnit;
+      padding: 0;
 
       :global(.mantine-Group-root) {
         gap: $marginUnit;
       }
 
-      .odd,
-      .even {
+      > div {
         margin: 0;
         padding: 0;
         height: 100%;
         align-items: center;
         display: flex;
-      }
+        flex-wrap: nowrap;
+        flex-grow: 0;
+        width: fit-content;
 
-      .even {
-        width: 10rem;
-
-        &:first-child {
-          justify-content: flex-start;
-        }
-
-        &:last-child {
-          justify-content: flex-end;
-        }
-      }
-
-      .odd {
-        flex: 1;
-        justify-content: center;
-
-        > a {
+        a {
           height: 100%;
           display: flex;
           align-items: center;
           border: none;
+        }
+
+        &:nth-child(even) {
+          flex: 1;
+
+          &:first-child {
+            justify-content: flex-start;
+          }
+
+          &:last-child {
+            justify-content: flex-end;
+
+            > div {
+              display: flex;
+              justify-content: flex-end;
+            }
+          }
         }
       }
     }
@@ -301,6 +304,7 @@
 .icon {
   transition: transform 200ms;
   padding: $paddingUnit 0;
+  height: auto;
 
   &:hover {
     transform: scale(1.1);
