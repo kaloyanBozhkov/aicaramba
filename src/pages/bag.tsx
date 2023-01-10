@@ -23,7 +23,7 @@ import CappedContainerTemplate from 'components/templates/CappedContainer/Capped
 import PageStack from 'components/templates/PageStack/PageStack.template'
 
 import { faClose } from '@fortawesome/free-solid-svg-icons'
-import { Box, Container, Group, MediaQuery, Space, Stack, Text } from '@mantine/core'
+import { Box, Container, Group, MediaQuery, Space, Stack } from '@mantine/core'
 
 export default function Bag() {
   const cartProducts = useCartProducts(),

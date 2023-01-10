@@ -5,13 +5,11 @@ import Link from 'next/link'
 
 import mainNav from 'routing/navLinks/mainNav'
 
-import { useCart } from 'stores/Cart.store'
 import { useStyles } from 'stores/Styles.store'
 
 import useOnLocationChange from 'hooks/location/useOnLocationChange'
 import useVerticalScrollDirection from 'hooks/styles/useVerticalScrollDirection'
 
-import CounterIcon from 'components/atoms/CounterIcon/CounterIcon.atom'
 import Logo from 'components/atoms/Logo/Logo.atom'
 import CreatorSignature from 'components/atoms/Signature/CreatorSignature.atom'
 

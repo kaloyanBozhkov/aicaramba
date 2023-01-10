@@ -9,22 +9,10 @@ type MainTemplateProps = {
   banner: ReactElement | null
   footer: ReactNode
   cart: ReactNode | null
-  isRightSideDrawerOpen: boolean
 }
 
-const MainTemplate = ({
-  header,
-  modal,
-  banner,
-  footer,
-  children,
-  cart,
-  isRightSideDrawerOpen,
-}: MainTemplateProps) => (
-  <div
-    className={styles.mainTemplate}
-    data-right-drawer-open={isRightSideDrawerOpen ? 'true' : undefined}
-  >
+const MainTemplate = ({ header, modal, banner, footer, children, cart }: MainTemplateProps) => (
+  <div className={styles.mainTemplate}>
     {banner && <section className={styles.banner}>{banner}</section>}
     <header>{header}</header>
     <main>{children}</main>

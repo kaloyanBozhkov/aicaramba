@@ -50,6 +50,11 @@ $startPos: translateX(85%) scale(3);
     );
   }
 
+  &[data-background="order"] {
+    background: rgb(246 114 174);
+    background: linear-gradient(280deg, rgba(246 114 174 / 100%) 0%, rgba(186 80 198 / 100%) 75%);
+  }
+
   &[data-color="dark"] {
     * {
       color: $textPrimary;

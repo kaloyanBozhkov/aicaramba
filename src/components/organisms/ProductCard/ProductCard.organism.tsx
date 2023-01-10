@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import NavLink from 'next/link'
 
-import { useCart } from 'stores/Cart.store'
+import { Cart, useCart } from 'stores/Cart.store'
 
 import Product from 'classes/Product'
 
@@ -32,7 +32,7 @@ interface IProductCard extends IProductInfo {
   id: string
   selectedSize?: Size
   isPending: boolean
-  onAddToCart: (pId: Product['id'], size: Size) => void
+  onAddToCart: Cart['controls']['add']
   onRemoveFromCart: (id: Product['id']) => void
 }
 
@@ -68,7 +68,7 @@ const ProductCard = ({
           pending={isPending}
           items={sizes}
           selected={selectedSize}
-          onSelected={(size) => onAddToCart(id, size)}
+          onSelected={(size) => onAddToCart({ id, size, openCartOnAdd: true })}
           onUnselected={() => onRemoveFromCart(id)}
         />
       </Stack>

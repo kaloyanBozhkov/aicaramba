@@ -74,7 +74,6 @@ const App = ({ Component, pageProps }: AppProps) => {
               />
             )}
             <MainTemplate
-              isRightSideDrawerOpen={isCartDrawerOpen}
               header={isMobile || isSmallTablet ? <HeaderMobile /> : <Header />}
               modal={<Modal {...modalProps} lockScroll />}
               banner={<Announcement />}

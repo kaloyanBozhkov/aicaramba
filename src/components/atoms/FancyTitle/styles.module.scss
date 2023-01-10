@@ -4,9 +4,12 @@
 .fancyTitle {
   height: 100%;
 
+  &[data-dimmer="true"] {
+    opacity: 80%;
+  }
+
   h4 {
     font-weight: bold;
-    opacity: 80%;
     letter-spacing: 0.8px;
     font-size: 2.6rem;
     line-height: 2.5rem;

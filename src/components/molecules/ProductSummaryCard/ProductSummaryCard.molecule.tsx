@@ -1,7 +1,6 @@
 import { type ReactNode, useState } from 'react'
 
 import Image from 'next/image'
-import NavLink from 'next/link'
 import Link from 'next/link'
 
 import Status from 'components/atoms/Status/Status.atom'
@@ -69,7 +68,7 @@ const ProductSummaryCard = ({
       noWrap
       data-without-price={withoutPrice === true ? 'true' : undefined}
     >
-      <NavLink href={to} data-naked="true">
+      <Link href={to} data-naked="true">
         <Image
           src={imgSrc}
           alt="product-image"
@@ -77,7 +76,7 @@ const ProductSummaryCard = ({
           height={1000}
           className={styles.preview}
         />
-      </NavLink>
+      </Link>
       {modifier === 'default' || !showingBrief ? (
         <>
           <ProductInfo

@@ -10,7 +10,7 @@ import ActionButton from 'components/atoms/ActionButton/ActionButton.atom'
 
 import RichText from 'components/molecules/RichText/RichText.molecule'
 
-import { Center, Grid, Group, Overlay } from '@mantine/core'
+import { Center, Grid, Overlay } from '@mantine/core'
 
 import styles from './styles.module.scss'
 

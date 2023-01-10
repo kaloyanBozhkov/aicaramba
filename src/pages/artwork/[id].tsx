@@ -57,8 +57,8 @@ export default function Artwork({
     cartControls = useCart((cart) => cart.controls),
     inCart = useCart(useCallback((cart) => cart.products[p.id], [p.id])),
     isPending = useCart(useCallback((cart) => cart.pending.includes(p.id), [p.id])),
-    [color, setColor] = useState<Color>(Color.BLACK),
-    [size, setSize] = useState<Size>(Size.L),
+    [color, setColor] = useState<Color>(inCart?.color || Color.BLACK),
+    [size, setSize] = useState<Size>(inCart?.size || Size.L),
     changedConfig = useMemo(() => {
       if (!inCart) return false
       return compareConfig({ size: inCart.size, color: inCart.color }, { size, color })
@@ -170,7 +170,7 @@ export default function Artwork({
                             return
                           }
 
-                          cartControls.add(product.id, size, color)
+                          cartControls.add({ id: product.id, size, color, openCartOnAdd: true })
                         }}
                         data-fixed-mobile="bottom"
                         data-fixed-tabletsmall="bottom"

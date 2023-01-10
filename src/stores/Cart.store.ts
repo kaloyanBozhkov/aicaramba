@@ -11,7 +11,7 @@ export interface ProductConfig {
   color: Color
 }
 
-type Cart = {
+export type Cart = {
   products: Record<ProductId, ProductConfig>
   pending: string[]
   opened: boolean
@@ -19,7 +19,7 @@ type Cart = {
   controls: {
     open: () => void
     close: () => void
-    add: (pId: ProductId, size: Size, color?: Color) => void
+    add: (props: { id: ProductId; size: Size; color?: Color; openCartOnAdd?: boolean }) => void
     remove: (pId: string) => void
     update: (
       pId: string,
@@ -54,7 +54,7 @@ export const useCart = create<Cart>((set) => ({
           opened: false,
         }
       }),
-    add: (pId, size, color = Color.BLACK) => {
+    add: ({ id: pId, size, color = Color.BLACK, openCartOnAdd = false }) => {
       set((prev) => ({
         ...prev,
         products: {
@@ -73,6 +73,7 @@ export const useCart = create<Cart>((set) => ({
         set((prev) => ({
           ...prev,
           pending: prev.pending.filter((id) => id !== pId),
+          opened: openCartOnAdd ? true : prev.opened,
         }))
       }, 1000)
     },

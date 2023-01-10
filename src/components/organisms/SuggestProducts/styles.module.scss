@@ -6,7 +6,7 @@
   &[data-fixed="true"] {
     position: fixed;
     top: 0;
-    right: $cartWidth;
+    right: $drawerWidth;
     left: 0;
     bottom: 0;
     width: 50vw;
@@ -18,15 +18,15 @@
     opacity: 0%;
 
     @include mediaQuery(mobile) {
-      right: $cartSmallWidth;
+      right: $drawerSallestWidth;
     }
 
     @include mediaQuery(smallishTablet) {
-      right: $cartSmallWidth;
+      right: $drawerSmallWidth;
     }
 
     @include mediaQuery(tabletSmall) {
-      right: $cartSmallWidth;
+      right: $drawerSmallWidth;
     }
   }
 

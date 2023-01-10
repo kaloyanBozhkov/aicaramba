@@ -1,3 +1,5 @@
+import { GetServerSidePropsContext } from 'next'
+
 export function findMostCommonString(strings: string[]): string | null {
   if (strings.length === 0) return null
 

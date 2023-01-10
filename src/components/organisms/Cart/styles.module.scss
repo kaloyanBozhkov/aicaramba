@@ -20,18 +20,18 @@
   :global(.mantine-Drawer-drawer) {
     display: flex;
     flex-direction: column;
-    width: $cartWidth;
+    width: $drawerWidth;
 
     @include mediaQuery(mobile) {
-      width: $cartSmallWidth;
+      width: $drawerSallestWidth;
     }
 
     @include mediaQuery(smallishTablet) {
-      width: $cartSmallWidth;
+      width: $drawerSmallWidth;
     }
 
     @include mediaQuery(tabletSmall) {
-      width: $cartSmallWidth;
+      width: $drawerSmallWidth;
     }
   }
 

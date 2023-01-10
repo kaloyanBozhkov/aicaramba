@@ -12,7 +12,7 @@ const PageHeader = ({
   background,
 }: {
   title: ReactNode | string
-  background: ProductStatus | 'search'
+  background: ProductStatus | 'search' | 'order'
 }) => (
   <div
     className={styles.pageHeader}

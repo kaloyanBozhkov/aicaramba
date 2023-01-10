@@ -9,13 +9,20 @@ type IFancyTitle = {
   subtitle: string
   titleIcon?: ReactNode
   iconOnRight?: boolean
+  dimmer?: boolean
 }
 
-const FancyTitle = ({ title, subtitle, titleIcon, iconOnRight }: IFancyTitle) => {
+const FancyTitle = ({ title, subtitle, titleIcon, iconOnRight, dimmer }: IFancyTitle) => {
   const titleC = <h4>{title}</h4>
 
   return (
-    <Stack className={styles.fancyTitle} justify="space-between" align="flex-start" spacing="xs">
+    <Stack
+      className={styles.fancyTitle}
+      justify="space-between"
+      align="flex-start"
+      spacing="xs"
+      data-dimmer={dimmer || undefined}
+    >
       {titleIcon ? (
         <Group
           spacing="xs"

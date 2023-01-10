@@ -161,4 +161,23 @@ export const searchRouter = router({
         return [...found, ...anotherOne]
       }
     ),
+  getArtworks: publicProcedure
+    .input(
+      z.object({
+        pIds: z.array(z.string()),
+      })
+    )
+    .query(async ({ ctx, input: { pIds } }) => {
+      const products = await ctx.prisma.product.findMany({
+        where: {
+          id: { in: pIds },
+        },
+        select,
+        orderBy: {
+          updatedAt: 'asc',
+        },
+      })
+
+      return products
+    }),
 })

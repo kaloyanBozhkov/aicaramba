@@ -8,6 +8,15 @@ const nextConfig = {
     config.plugins.push(new StylelintPlugin())
     return config
   },
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

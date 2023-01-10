@@ -10,7 +10,7 @@
     height: $headerDesktopH;
     background-color: $primaryBack;
     border-bottom: 1px solid $primaryBorder;
-    z-index: 100;
+    z-index: $zIndexMax;
 
     &[data-scroll-dir="down"] {
       position: fixed;
@@ -85,7 +85,7 @@
 
   :global(.mantine-Drawer-drawer) {
     height: 100%;
-    max-width: 90vw;
+    width: $drawerSmallWidth;
     border-right: 1px solid $primaryBorder;
     position: relative;
 
